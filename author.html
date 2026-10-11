@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b3d2e" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="description"
+        content="The Author's Chamber — Lost Leaf. Personal philosophy, psychological field research, and direct reflections." />
+    <title>The Author's Chamber — Lost Leaf</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Playfair+Display:ital,wght@0,500..800;1,500..700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ================= 1. RESET & CORE THEME ================= */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --forest: #0b3d2e;
+            --deep: #062b21;
+            --green: #1d6b4f;
+            --leaf: #3e8b64;
+            --mint: #eaf5ee;
+            --cream: #f7f5ed;
+            --paper: #ffffff;
+            --gold: #d7b56d;
+            --ink: #173229;
+            --muted: #5e736a;
+            --line: #d8e5dc;
+            --shadow: 0 16px 40px rgba(11, 61, 46, 0.08);
+            --shadow-lg: 0 24px 64px rgba(6, 43, 33, 0.12);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --radius-full: 999px;
+            --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-theme="sepia"] {
+            --forest: #3c2a1a;
+            --deep: #291c10;
+            --green: #6d4c2e;
+            --leaf: #8a6440;
+            --mint: #eadecb;
+            --cream: #f4ecd8;
+            --paper: #fbf6ec;
+            --gold: #b38b45;
+            --ink: #2b1f13;
+            --muted: #75634e;
+            --line: #ded3bd;
+            --shadow: 0 16px 40px rgba(44, 31, 19, 0.08);
+        }
+
+        [data-theme="midnight"] {
+            --forest: #2f7a5b;
+            --deep: #e8f5ef;
+            --green: #499e79;
+            --leaf: #65af87;
+            --mint: #0f3327;
+            --cream: #051a14;
+            --paper: #0a261e;
+            --gold: #dfc282;
+            --ink: #e3f0e8;
+            --muted: #94b5a8;
+            --line: #164034;
+            --shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--ink);
+            background-color: var(--cream);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            top: 0px !important;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at 15% 15%, rgba(62, 139, 100, 0.06), transparent 40%),
+                radial-gradient(circle at 85% 65%, rgba(215, 181, 109, 0.06), transparent 35%);
+            z-index: -2;
+        }
+
+        .goog-te-banner-frame.skiptranslate,
+        .goog-te-banner-frame,
+        #goog-gt-tt,
+        .goog-te-balloon-frame {
+            display: none !important;
+            visibility: hidden !important;
+        }
+
+        body>.skiptranslate {
+            display: none !important;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Base Container (100% matched to index.html & reading.html) */
+        .container {
+            width: min(1140px, 100% - 36px);
+            margin: 0 auto;
+        }
+
+        /* ================= 2. SITE HEADER & NAVBAR ================= */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 120;
+            background: var(--cream);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--line);
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav {
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .brand-logo-wrap {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #eae5d8;
+            border: 1px solid var(--line);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(11, 61, 46, 0.12);
+            flex-shrink: 0;
+        }
+
+        .brand-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 28%;
+            transform: scale(1.42);
+            display: block;
+        }
+
+        .brand-text strong {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 19px;
+            color: var(--deep);
+            display: block;
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+
+        .brand-text small {
+            color: var(--muted);
+            font-size: 9px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            display: block;
+            white-space: nowrap;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-full);
+            padding: 7px 12px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink);
+            transition: var(--transition);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .theme-toggle-btn:hover {
+            background: var(--mint);
+            border-color: var(--leaf);
+        }
+
+        .google-translate-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--mint);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-full);
+            padding: 7px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--forest);
+            transition: var(--transition);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .google-translate-btn:hover {
+            background: #d8ece0;
+            border-color: var(--leaf);
+        }
+
+        .nav-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--forest);
+            padding: 7px 14px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--line);
+            background: var(--paper);
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .nav-link-btn:hover {
+            background: var(--mint);
+            border-color: var(--leaf);
+        }
+
+        /* ================= 3. MAIN AUTHOR CHAMBER ================= */
+        .author-shell {
+            padding: 40px 0 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+            width: 100%;
+        }
+
+        .author-card {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 40px 45px;
+            box-shadow: var(--shadow);
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .author-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .author-title {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(30px, 4vw, 44px);
+            color: var(--deep);
+            line-height: 1.18;
+            margin-bottom: 18px;
+        }
+
+        .author-intro {
+            font-size: 18px;
+            line-height: 1.85;
+            color: var(--muted);
+            margin-bottom: 28px;
+        }
+
+        /* Social Connect Bar */
+        .social-connect-bar {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding-top: 20px;
+            border-top: 1px solid var(--line);
+            flex-wrap: wrap;
+        }
+
+        .insta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            color: #ffffff;
+            padding: 11px 24px;
+            border-radius: var(--radius-full);
+            font-size: 13.5px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 14px rgba(225, 48, 108, 0.28);
+            transition: transform 0.2s ease;
+        }
+
+        .insta-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .author-site-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--mint);
+            border: 1px solid var(--line);
+            color: var(--forest);
+            padding: 11px 22px;
+            border-radius: var(--radius-full);
+            font-size: 13.5px;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .author-site-btn:hover {
+            border-color: var(--leaf);
+            background: #d8ece0;
+        }
+
+        /* ================= 4. RESEARCH NOTES VAULT ================= */
+        .vault-heading {
+            margin-top: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .vault-heading h2 {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(26px, 3.2vw, 36px);
+            color: var(--deep);
+            line-height: 1.2;
+        }
+
+        .vault-heading p {
+            font-size: 15.5px;
+            color: var(--muted);
+        }
+
+        .research-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 22px;
+            margin-top: 20px;
+        }
+
+        .research-card {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-left: 4.5px solid var(--leaf);
+            border-radius: var(--radius-sm);
+            padding: 32px 34px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .research-card:hover {
+            border-left-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 48px rgba(11, 61, 46, 0.1);
+        }
+
+        .research-meta {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+            color: var(--forest);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .research-title {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 23px;
+            color: var(--deep);
+            margin-bottom: 14px;
+            line-height: 1.25;
+        }
+
+        .research-body {
+            font-size: 17px;
+            line-height: 1.82;
+            color: var(--ink);
+        }
+
+        /* ================= 5. INQUIRY / SMTP RELAY FORM ================= */
+        .inquiry-card {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 40px 45px;
+            box-shadow: var(--shadow);
+            margin-top: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .inquiry-card h3 {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 30px;
+            color: var(--deep);
+            margin-bottom: 6px;
+            line-height: 1.2;
+        }
+
+        .inquiry-sub {
+            font-size: 15.5px;
+            color: var(--muted);
+            margin-bottom: 24px;
+            max-width: 700px;
+            line-height: 1.65;
+        }
+
+        .mode-pills-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 9px 20px;
+            border-radius: var(--radius-full);
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mode-btn.active {
+            border: 1.5px solid var(--forest);
+            background: var(--forest);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(11, 61, 46, 0.16);
+        }
+
+        .mode-btn.inactive {
+            border: 1.5px solid var(--line);
+            background: var(--cream);
+            color: var(--muted);
+        }
+
+        .mode-btn.inactive:hover {
+            background: var(--mint);
+            border-color: var(--leaf);
+            color: var(--forest);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--forest);
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            background: var(--cream);
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 13px 18px;
+            font-family: inherit;
+            font-size: 15.5px;
+            color: var(--ink);
+            outline: none;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            border-color: var(--leaf);
+            background: var(--paper);
+        }
+
+        .form-textarea {
+            min-height: 160px;
+            resize: vertical;
+            line-height: 1.75;
+        }
+
+        .form-status {
+            margin-top: 14px;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            display: none;
+        }
+
+        .form-status.success {
+            display: block;
+            background: #eaf5ee;
+            color: var(--forest);
+            border: 1px solid #c5decb;
+        }
+
+        .form-status.error {
+            display: block;
+            background: #fdf2f2;
+            color: #c93b3b;
+            border: 1px solid #f8d7da;
+        }
+
+        .submit-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--forest);
+            color: #ffffff;
+            padding: 14px 32px;
+            border-radius: var(--radius-full);
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(11, 61, 46, 0.22);
+            transition: var(--transition);
+            margin-top: 8px;
+        }
+
+        .submit-btn:hover {
+            background: var(--deep);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ================= 6. MODAL & FOOTER ================= */
+        #indian_lang_modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: rgba(3, 27, 20, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            place-items: center;
+            padding: 20px;
+        }
+
+        #indian_lang_modal.open {
+            display: grid !important;
+        }
+
+        .lang-modal-card {
+            background: #ffffff;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 380px;
+            padding: 22px 18px;
+            border: 1.5px solid var(--line);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .lang-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 10px;
+        }
+
+        .lang-modal-header h3 {
+            font-size: 16px;
+            color: var(--forest);
+            font-weight: 800;
+        }
+
+        .lang-modal-close {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--muted);
+            cursor: pointer;
+        }
+
+        .lang-list-container {
+            max-height: 300px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .lang-btn-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: var(--cream);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .lang-btn-item:hover {
+            background: var(--mint);
+            border-color: var(--leaf);
+            color: var(--forest);
+        }
+
+        .footer {
+            background: #031c15;
+            color: #b7cebe;
+            padding: 40px 0 24px;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* ================= 7. DEDICATED DESKTOP ENGINE (min-width: 961px) ================= */
+        @media screen and (min-width: 961px) {
+            .container {
+                width: min(1220px, 100% - 64px) !important;
+            }
+
+            .nav {
+                height: 76px !important;
+            }
+
+            .brand strong {
+                font-size: 23px !important;
+            }
+
+            .brand small {
+                font-size: 10.5px !important;
+            }
+
+            .author-shell {
+                padding: 50px 0 90px !important;
+                gap: 42px !important;
+            }
+
+            .author-card,
+            .inquiry-card {
+                padding: 48px 52px !important;
+            }
+
+            .author-title {
+                font-size: 44px !important;
+            }
+
+            .author-intro {
+                font-size: 19.5px !important;
+                line-height: 1.9 !important;
+            }
+
+            .research-card {
+                padding: 36px 42px !important;
+            }
+
+            .research-title {
+                font-size: 26px !important;
+            }
+
+            .research-body {
+                font-size: 18px !important;
+                line-height: 1.88 !important;
+            }
+
+            .inquiry-card h3 {
+                font-size: 32px !important;
+            }
+
+            .inquiry-sub {
+                font-size: 17px !important;
+            }
+
+            .submit-btn {
+                font-size: 16px !important;
+                padding: 15px 34px !important;
+            }
+        }
+
+        /* ================= 8. ANDROID & MOBILE VIEW ENGINE (max-width: 768px) ================= */
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding-left: 14px !important;
+                padding-right: 14px !important;
+            }
+
+            .nav {
+                height: 60px !important;
+                gap: 8px !important;
+            }
+
+            .brand-logo-wrap {
+                width: 36px !important;
+                height: 36px !important;
+                border-radius: 10px !important;
+            }
+
+            .brand-text strong {
+                font-size: 16px !important;
+            }
+
+            .brand-text small {
+                display: none !important;
+            }
+
+            .nav-actions {
+                gap: 6px !important;
+            }
+
+            .theme-toggle-btn {
+                padding: 6px 10px !important;
+                font-size: 12px !important;
+                border-radius: 20px !important;
+            }
+
+            .theme-toggle-btn span:last-child {
+                display: none !important;
+            }
+
+            .google-translate-btn {
+                padding: 6px 10px !important;
+                font-size: 12px !important;
+                border-radius: 20px !important;
+            }
+
+            .google-translate-btn span:last-child {
+                display: none !important;
+            }
+
+            .nav-link-btn {
+                padding: 6px 10px !important;
+                font-size: 12px !important;
+                border-radius: 20px !important;
+            }
+
+            .author-shell {
+                padding: 16px 0 50px !important;
+                gap: 20px !important;
+            }
+
+            .author-card,
+            .inquiry-card {
+                padding: 22px 16px !important;
+                border-radius: 16px !important;
+            }
+
+            .author-title {
+                font-size: 26px !important;
+                line-height: 1.25 !important;
+            }
+
+            .author-intro {
+                font-size: 16px !important;
+                line-height: 1.75 !important;
+            }
+
+            .social-connect-bar {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 10px !important;
+            }
+
+            .insta-btn,
+            .author-site-btn {
+                width: 100% !important;
+                justify-content: center !important;
+                min-height: 44px !important;
+            }
+
+            .research-card {
+                padding: 20px 16px !important;
+                border-radius: 14px !important;
+            }
+
+            .research-title {
+                font-size: 20px !important;
+            }
+
+            .research-body {
+                font-size: 15.5px !important;
+                line-height: 1.75 !important;
+            }
+
+            .inquiry-card h3 {
+                font-size: 24px !important;
+            }
+
+            .mode-pills-row {
+                flex-direction: column !important;
+                gap: 8px !important;
+            }
+
+            .mode-btn {
+                width: 100% !important;
+                justify-content: center !important;
+                min-height: 42px !important;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr !important;
+                gap: 14px !important;
+            }
+
+            .submit-btn {
+                width: 100% !important;
+                justify-content: center !important;
+                min-height: 48px !important;
+            }
+
+            .footer-inner {
+                flex-direction: column !important;
+                gap: 12px !important;
+                text-align: center !important;
+            }
+        }
+
+        @media screen and (max-width: 380px) {
+            .brand-text strong {
+                font-size: 15px !important;
+            }
+
+            .author-title {
+                font-size: 23px !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Language Modal -->
+    <div id="indian_lang_modal">
+        <div class="lang-modal-card notranslate" translate="no">
+            <div class="lang-modal-header">
+                <h3>Select Language</h3>
+                <span class="lang-modal-close" id="closeLangModal">✕</span>
+            </div>
+            <div class="lang-list-container">
+                <button class="lang-btn-item" data-lang="en"><span>English</span> <small>English</small></button>
+                <button class="lang-btn-item" data-lang="hi"><span>हिंदी</span> <small>Hindi</small></button>
+                <button class="lang-btn-item" data-lang="mr"><span>मराठी</span> <small>Marathi</small></button>
+                <button class="lang-btn-item" data-lang="gu"><span>ગુજરાતી</span> <small>Gujarati</small></button>
+                <button class="lang-btn-item" data-lang="bn"><span>বাংলা</span> <small>Bengali</small></button>
+                <button class="lang-btn-item" data-lang="ta"><span>தமிழ்</span> <small>Tamil</small></button>
+                <button class="lang-btn-item" data-lang="te"><span>తెలుగు</span> <small>Telugu</small></button>
+                <button class="lang-btn-item" data-lang="kn"><span>ಕನ್ನಡ</span> <small>Kannada</small></button>
+                <button class="lang-btn-item" data-lang="ml"><span>മലയാളം</span> <small>Malayalam</small></button>
+                <button class="lang-btn-item" data-lang="pa"><span>ਪੰਜਾਬੀ</span> <small>Punjabi</small></button>
+                <button class="lang-btn-item" data-lang="or"><span>ଓଡ଼ିଆ</span> <small>Odia</small></button>
+                <button class="lang-btn-item" data-lang="as"><span>Assamese</span> <small>Assamese</small></button>
+                <button class="lang-btn-item" data-lang="ur"><span>اردو</span> <small>Urdu</small></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="hidden_google_engine" style="display:none;">
+        <div id="google_translate_element"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <nav class="nav container">
+            <a class="brand" href="index.html">
+                <div class="brand-logo-wrap notranslate" translate="no">
+                    <img src="logo.jpeg" alt="Lost Leaf Emblem" class="brand-logo-img" />
+                </div>
+                <div class="brand-text">
+                    <strong class="notranslate" translate="no">Lost Leaf</strong>
+                    <small class="notranslate" translate="no">The Inner Lens</small>
+                </div>
+            </a>
+
+            <div class="nav-actions">
+                <button class="theme-toggle-btn notranslate" id="themeToggleBtn" type="button" title="Switch Theme">
+                    <span id="themeIcon">🌿</span>
+                    <span id="themeLabel">Cream</span>
+                </button>
+
+                <button class="google-translate-btn notranslate" id="googleTranslateBtn" type="button" translate="no">
+                    <span>🌐</span> <span>Translate</span>
+                </button>
+
+                <a href="reading.html" class="nav-link-btn">
+                    <span>📖</span> <span>Read</span>
+                </a>
+                <a href="index.html" class="nav-link-btn">
+                    <span>←</span> <span>Home</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Author Workspace -->
+    <main class="container author-shell">
+
+        <!-- Primary Author Profile Card -->
+        <article class="author-card">
+            <div class="author-eyebrow">
+                <span>◈</span> <span>THE AUTHOR'S DESK</span>
+            </div>
+            <h1 class="author-title">Observation without Defense.</h1>
+            <p class="author-intro">
+                Welcome to the research chamber of <strong>Lost Leaf</strong>. The writings published across this space
+                are not theoretical self-help lessons or academic lectures. They are direct, grounded extractions from
+                real-world human behavior—exploring why we defend ourselves when cornered, why we run from silence, and
+                how unspoken
+                expectations silently ruin our peace.
+            </p>
+
+            <div class="social-connect-bar notranslate" translate="no">
+                <a href="https://www.instagram.com/lostleafcrew?psln=MW5pcG5xbDFjMXJzYg%3D%3D" target="_blank" rel="noopener noreferrer"
+                    class="insta-btn">
+                    <span>📸</span> <span>Connect on Instagram</span>
+                </a>
+                <a href="https://mywebo.vercel.app/aboutus.html" target="_blank" rel="noopener noreferrer" class="author-site-btn">
+                    <span>🌐</span> <span>Creator Profile (MyWebo) →</span>
+                </a>
+            </div>
+        </article>
+
+        <!-- Author Research & Contemplation Vault -->
+        <section class="vault-heading">
+            <p class="author-eyebrow"><span>◈</span> <span>FIELD OBSERVATIONS</span></p>
+            <h2>Underlying Research & Philosophy</h2>
+            <p>The core psychological pillars framing each essay on this platform.</p>
+
+            <div class="research-grid">
+                <article class="research-card">
+                    <div class="research-meta">
+                        <span>PILLAR 01</span> <span>•</span> <span>THE WHEEL OF NEVER ENOUGH</span>
+                    </div>
+                    <h3 class="research-title">Valuing What You Hold While Walking Forward</h3>
+                    <p class="research-body">
+                        Human nature carries a strange flaw: we are so blinded by what we do not have that we completely
+                        forget to value
+                        what is already resting in our hands.
+                        <br><br>
+                        A person with nothing dreams of a bicycle. Once they own a bicycle, they run after a motorcycle.
+                        The motorcycle
+                        owner desires a car, and the car owner dreams of a private jet. The wheel of desire never stops
+                        turning. There
+                        is nothing wrong with dreaming, working hard, or aiming high. The tragedy begins when this chase
+                        turns into
+                        continuous complaint, leaving you hollow and bitter inside.
+                        <br><br>
+                        We forget that the ordinary life we overlook today is someone else's desperate prayer. The roof
+                        over your head,
+                        the food on your plate, and your functioning health are distant dreams for millions. Contentment
+                        does not mean
+                        giving up on ambition. True contentment means deep gratitude: being thankful for what you have
+                        right now, while
+                        continuing to walk forward without jealousy or comparison.
+                        <br><br>
+                        <strong>The Author's Note:</strong> When life feels heavy or you feel left behind, stop for a
+                        second and look
+                        back at how far you have already come. What you take for granted today was once a dream you
+                        prayed for. Dream
+                        with all your heart and reach for the sky, but keep your feet rooted to the ground. True peace
+                        is not hidden in
+                        bigger cars or expensive houses; it lives in a quiet mind that knows how to work with a smile
+                        and be deeply
+                        grateful for the present moment.
+                    </p>
+                </article>
+
+                <article class="research-card">
+                    <div class="research-meta">
+                        <span>PILLAR 02</span> <span>•</span> <span>THE REAL MEASURE OF CHARACTER</span>
+                    </div>
+                    <h3 class="research-title">Belief, Disbelief, and True Humanity</h3>
+                    <p class="research-body">
+                        Society quickly divides humanity into two rigid boxes: those who believe in God and those who do
+                        not. Alongside
+                        this division runs a blind prejudice—the assumption that a believer is inherently noble, while
+                        an atheist's
+                        moral character is immediately suspect.
+                        <br><br>
+                        Believing or not believing in a higher power is merely an intellectual or philosophical
+                        position. It is not
+                        proof of who you are inside. Bowing your head in a temple, mosque, or church does not cleanse a
+                        character that
+                        harms others, practices deceit, or exploits the weak. Prayers cannot compensate for cruel
+                        actions.
+                        <br><br>
+                        Atheism is not a lack of morality. When someone who fears no hell and expects no heavenly reward
+                        still chooses
+                        honesty, supports the vulnerable, and refuses to cause pain, their goodness is born from pure
+                        human conscience.
+                        It is not fueled by fear or greed; it comes from empathy—the raw ability to feel another
+                        creature's suffering.
+                        <br><br>
+                        <strong>The Author's Note:</strong> Existence does not judge you by which name you chanted or
+                        which temple you
+                        visited. It measures what you gave back while you were here. Being an atheist does not make
+                        anyone bad, and
+                        believing in God does not automatically make anyone good. The ultimate test remains simple: your
+                        actions, your
+                        honesty, and your compassion. If your presence made another person's difficult day a little
+                        easier, then beyond
+                        all labels of faith, you are a truly decent human being.
+                    </p>
+                </article>
+
+                <article class="research-card">
+                    <div class="research-meta">
+                        <span>PILLAR 03</span> <span>•</span> <span>PRACTICAL RESTRAINT OVER MORAL PURITY</span>
+                    </div>
+                    <h3 class="research-title">Doing What You Can, Where You Stand</h3>
+                    <p class="research-body">
+                        The biggest excuse we make in life is simple: because we cannot be completely perfect, we choose
+                        not to care at
+                        all. We tell ourselves that living a completely harmless life is impossible, so we do nothing.
+                        <br><br>
+                        I do not believe in that excuse. That is why I choose to eat a vegetarian diet. I do not eat
+                        meat or consume
+                        animal flesh. My choice does not come from a holy rule or a desire to look morally superior. It
+                        comes from
+                        practical honesty.
+                        <br><br>
+                        What sits on my plate three times a day is completely under my control. I can easily choose
+                        vegetables, lentils,
+                        and grains instead of an animal that had to die for a meal. The alternative is simple, abundant,
+                        and right in
+                        front of me.
+                        <br><br>
+                        At the same time, I accept the messy reality of the world. It is hard to avoid every leather
+                        shoe, every daily
+                        tool, or every complicated system built into modern life. But being unable to fix everything is
+                        never an excuse
+                        to fix nothing.
+                        <br><br>
+                        <strong>The Author's Note:</strong> Real character is not about demanding a gold medal for
+                        purity. It is about
+                        quiet restraint. If you cannot stop all the cruelty in the world, at least stop the cruelty that
+                        is easy for you
+                        to refuse. Control what you can, let go of the show-off, and start where you stand.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Direct Gmail Relay / Adaptive Inquiry Chamber -->
+        <section class="inquiry-card">
+            <p class="author-eyebrow"><span>◈</span> <span>DIRECT INQUIRY & FEEDBACK</span></p>
+            <h3>Share a Reflection or Ask a Question</h3>
+            <p class="inquiry-sub">
+                You don't have to identify yourself if you just want to leave an honest thought. Choose your intent
+                below.
+            </p>
+
+            <!-- Mode Selector Pills -->
+            <div class="mode-pills-row notranslate" translate="no">
+                <button type="button" id="modeFeedbackBtn" class="mode-btn active">
+                    <span>💬</span> <span>Anonymous Feedback</span>
+                </button>
+                <button type="button" id="modeQuestionBtn" class="mode-btn inactive">
+                    <span>❓</span> <span>Ask a Question (Expect Reply)</span>
+                </button>
+            </div>
+
+            <!-- Connected to Formspree SMTP Relay Pipeline -->
+            <form id="authorInquiryForm">
+                <div class="form-grid">
+
+                    <!-- Name Field (Always Optional) -->
+                    <div class="form-group" id="nameGroup">
+                        <label class="form-label" for="senderName">Your Name <span
+                                style="font-size: 10px; color: var(--muted); font-weight: 500;">(Optional)</span></label>
+                        <input type="text" id="senderName" class="form-input" placeholder="Anonymous Reader" />
+                    </div>
+
+                    <!-- Email Field (Dynamically Required for Questions) -->
+                    <div class="form-group" id="emailGroup">
+                        <label class="form-label" for="senderEmail" id="emailLabel">Your Email <span
+                                style="font-size: 10px; color: var(--muted); font-weight: 500;">(Optional)</span></label>
+                        <input type="email" id="senderEmail" class="form-input"
+                            placeholder="Leave blank to stay anonymous" />
+                        <small id="emailHint"
+                            style="font-size: 11px; color: var(--muted); margin-top: 2px; display: none;">Needed so the
+                            author can write back to your inbox.</small>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" for="senderSubject">Subject / Referenced Note</label>
+                        <input type="text" id="senderSubject" class="form-input"
+                            placeholder="e.g. Thoughts on 'Why Being Too Nice Will Break You'" required />
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" for="senderMessage">Your Message</label>
+                        <textarea id="senderMessage" class="form-textarea"
+                            placeholder="Speak honestly. No judgment here..." required></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitFormBtn">
+                    <span>✉ Send Anonymous Feedback</span>
+                </button>
+
+                <p class="form-status" id="formStatusMsg"></p>
+            </form>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <p>© <span id="year"></span> Lost Leaf. Built for intentional, mindful inquiry.</p>
+            <a href="index.html#writing" style="color: #ffffff; font-size: 13px; font-weight: 700;">Explore All Writings
+                →</a>
+        </div>
+    </footer>
+
+    <!-- Google Translate Loader -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,mr,gu,bn,ta,te,kn,ml,pa,or,as,ur',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        /* ================= THEME CONTROLLER ================= */
+        const THEMES = ["cream", "sepia", "midnight"];
+        const THEME_LABELS = { cream: "Cream", sepia: "Sepia", midnight: "Midnight" };
+        const THEME_ICONS = { cream: "🌿", sepia: "📜", midnight: "🌙" };
+
+        function applyTheme(themeName) {
+            document.documentElement.setAttribute("data-theme", themeName);
+            localStorage.setItem("lostleaf_theme", themeName);
+
+            const iconEl = document.getElementById("themeIcon");
+            const labelEl = document.getElementById("themeLabel");
+            if (iconEl) iconEl.textContent = THEME_ICONS[themeName] || "🌿";
+            if (labelEl) labelEl.textContent = THEME_LABELS[themeName] || "Cream";
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute("data-theme") || "cream";
+            const nextIdx = (THEMES.indexOf(current) + 1) % THEMES.length;
+            applyTheme(THEMES[nextIdx]);
+        }
+
+        /* ================= TWO-WAY TRANSLATION ENGINE ================= */
+        const langModal = document.getElementById("indian_lang_modal");
+
+        function clearAllGoogleTranslateCookies() {
+            const hostname = window.location.hostname;
+            const domainParts = hostname.split('.');
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + hostname + ";";
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=." + hostname + ";";
+            if (domainParts.length > 2) {
+                const parentDomain = domainParts.slice(-2).join('.');
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=." + parentDomain + ";";
+            }
+        }
+
+        function setLanguage(langCode) {
+            langModal.classList.remove("open");
+            if (langCode === "en") {
+                const selectElem = document.querySelector("#google_translate_element select.goog-te-combo");
+                if (selectElem) {
+                    selectElem.value = "";
+                    selectElem.dispatchEvent(new Event("change"));
+                }
+                clearAllGoogleTranslateCookies();
+                window.location.reload();
+                return;
+            }
+            clearAllGoogleTranslateCookies();
+            document.cookie = `googtrans=/en/${langCode}; path=/;`;
+            document.cookie = `googtrans=/en/${langCode}; path=/; domain=${window.location.hostname};`;
+            const selectElem = document.querySelector("#google_translate_element select.goog-te-combo");
+            if (selectElem) {
+                selectElem.value = langCode;
+                selectElem.dispatchEvent(new Event("change"));
+            }
+            window.location.reload();
+        }
+
+        /* ================= LIVE ADAPTIVE RELAY ENGINE ================= */
+        const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdalzznz";
+        const inquiryForm = document.getElementById("authorInquiryForm");
+        const statusMsg = document.getElementById("formStatusMsg");
+        const submitBtn = document.getElementById("submitFormBtn");
+
+        const modeFeedbackBtn = document.getElementById("modeFeedbackBtn");
+        const modeQuestionBtn = document.getElementById("modeQuestionBtn");
+        const senderEmail = document.getElementById("senderEmail");
+        const emailLabel = document.getElementById("emailLabel");
+        const emailHint = document.getElementById("emailHint");
+
+        let currentMode = "feedback"; // 'feedback' or 'question'
+
+        // Toggle Modes
+        modeFeedbackBtn.onclick = () => {
+            currentMode = "feedback";
+            modeFeedbackBtn.className = "mode-btn active";
+            modeQuestionBtn.className = "mode-btn inactive";
+
+            senderEmail.required = false;
+            senderEmail.placeholder = "Leave blank to stay anonymous";
+            emailLabel.innerHTML = 'Your Email <span style="font-size: 10px; color: var(--muted); font-weight: 500;">(Optional)</span>';
+            emailHint.style.display = "none";
+            submitBtn.innerHTML = "<span>✉ Send Anonymous Feedback</span>";
+        };
+
+        modeQuestionBtn.onclick = () => {
+            currentMode = "question";
+            modeQuestionBtn.className = "mode-btn active";
+            modeFeedbackBtn.className = "mode-btn inactive";
+
+            senderEmail.required = true;
+            senderEmail.placeholder = "your.email@example.com (Required for reply)";
+            emailLabel.innerHTML = 'Your Email <span style="font-size: 11px; color: var(--leaf); font-weight: 800;">* Required</span>';
+            emailHint.style.display = "block";
+            submitBtn.innerHTML = "<span>✉ Submit Question & Expect Reply</span>";
+        };
+
+        inquiryForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            let name = document.getElementById("senderName").value.trim();
+            let email = senderEmail.value.trim();
+            const subject = document.getElementById("senderSubject").value.trim();
+            const message = document.getElementById("senderMessage").value.trim();
+
+            // Fallback defaults for true anonymity
+            if (!name) name = "Anonymous Reader";
+            if (!email) email = "anonymous@lostleaf.space";
+
+            submitBtn.innerHTML = "<span>TRANSMITTING...</span>";
+            submitBtn.disabled = true;
+            statusMsg.className = "form-status";
+            statusMsg.style.display = "none";
+
+            // Local storage backup
+            try {
+                const localEntry = { id: Date.now(), mode: currentMode, name, email, subject, message };
+                let currentLogs = JSON.parse(localStorage.getItem("lostleaf_inquiries")) || [];
+                currentLogs.unshift(localEntry);
+                localStorage.setItem("lostleaf_inquiries", JSON.stringify(currentLogs));
+            } catch (err) { }
+
+            // Dispatch to Formspree
+            fetch(FORMSPREE_ENDPOINT, {
+                method: "POST",
+                body: JSON.stringify({
+                    type: currentMode === "question" ? "Direct Question (Reply Requested)" : "Anonymous Reflection",
+                    name: name,
+                    email: email,
+                    subject: subject,
+                    message: `[Type: ${currentMode.toUpperCase()}]\n[Subject: ${subject}]\n\n${message}`
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        inquiryForm.reset();
+                        if (currentMode === "question") {
+                            statusMsg.textContent = "✓ Your question has been delivered. The author will write back to your email.";
+                        } else {
+                            statusMsg.textContent = "✓ Your anonymous reflection has been received in stillness.";
+                        }
+                        statusMsg.className = "form-status success";
+                        statusMsg.style.display = "block";
+                        setTimeout(() => { statusMsg.style.display = "none"; }, 6000);
+                    } else {
+                        statusMsg.textContent = "Relay error. Please try again or reach out on Instagram.";
+                        statusMsg.className = "form-status error";
+                        statusMsg.style.display = "block";
+                    }
+                })
+                .catch(error => {
+                    statusMsg.textContent = "Network error. Please check your connection.";
+                    statusMsg.className = "form-status error";
+                    statusMsg.style.display = "block";
+                })
+                .finally(() => {
+                    submitBtn.innerHTML = currentMode === "question"
+                        ? "<span>✉ Submit Question & Expect Reply</span>"
+                        : "<span>✉ Send Anonymous Feedback</span>";
+                    submitBtn.disabled = false;
+                });
+        });
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const savedTheme = localStorage.getItem("lostleaf_theme") || "cream";
+            applyTheme(savedTheme);
+
+            document.getElementById("themeToggleBtn").onclick = toggleTheme;
+
+            document.getElementById("googleTranslateBtn").onclick = () => langModal.classList.add("open");
+            document.getElementById("closeLangModal").onclick = () => langModal.classList.remove("open");
+            langModal.onclick = (e) => { if (e.target === langModal) langModal.classList.remove("open"); };
+
+            document.querySelectorAll(".lang-btn-item").forEach(itemBtn => {
+                itemBtn.onclick = () => setLanguage(itemBtn.dataset.lang);
+            });
+
+            document.getElementById("year").textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+
+</html>

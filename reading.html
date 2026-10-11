@@ -1,0 +1,2178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b3d2e" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="description"
+        content="Essays & Contemplations — Lost Leaf. Mindful reading on self-awareness and personal philosophy." />
+    <title>Essays & Contemplations — Lost Leaf</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Playfair+Display:ital,wght@0,500..800;1,500..700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ================= 1. RESET & DESIGN TOKENS ================= */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --forest: #0b3d2e;
+            --deep: #062b21;
+            --green: #1d6b4f;
+            --leaf: #3e8b64;
+            --mint: #eaf5ee;
+            --cream: #f7f5ed;
+            --paper: #ffffff;
+            --gold: #d7b56d;
+            --ink: #173229;
+            --muted: #5e736a;
+            --line: #d8e5dc;
+            --shadow: 0 16px 40px rgba(11, 61, 46, 0.08);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --radius-full: 999px;
+            --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 2. THEMES: WARM SEPIA & MIDNIGHT FOREST */
+        [data-theme="sepia"] {
+            --forest: #3c2a1a;
+            --deep: #291c10;
+            --green: #6d4c2e;
+            --leaf: #8a6440;
+            --mint: #eadecb;
+            --cream: #f4ecd8;
+            --paper: #fbf6ec;
+            --gold: #b38b45;
+            --ink: #2b1f13;
+            --muted: #75634e;
+            --line: #ded3bd;
+            --shadow: 0 16px 40px rgba(44, 31, 19, 0.08);
+        }
+
+        [data-theme="midnight"] {
+            --forest: #2f7a5b;
+            --deep: #e8f5ef;
+            --green: #499e79;
+            --leaf: #65af87;
+            --mint: #0f3327;
+            --cream: #051a14;
+            --paper: #0a261e;
+            --gold: #dfc282;
+            --ink: #e3f0e8;
+            --muted: #94b5a8;
+            --line: #164034;
+            --shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--ink);
+            background-color: var(--cream);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Top Reading Scroll Progress Bar */
+        #readingProgressBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3.5px;
+            width: 0%;
+            background: linear-gradient(90deg, var(--leaf), var(--gold));
+            z-index: 99999;
+            transition: width 0.1s ease-out;
+        }
+
+        /* Google Translate Toolbar Suppression */
+        .goog-te-banner-frame.skiptranslate,
+        .goog-te-banner-frame,
+        #goog-gt-tt,
+        .goog-te-balloon-frame {
+            display: none !important;
+            visibility: hidden !important;
+        }
+
+        body>.skiptranslate {
+            display: none !important;
+        }
+
+        body {
+            top: 0px !important;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            width: min(1140px, 100% - 36px);
+            margin: 0 auto;
+        }
+
+        /* ================= 2. SITE HEADER ================= */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 120;
+            background: var(--cream);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--line);
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav {
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .brand-logo-wrap {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #eae5d8;
+            border: 1px solid var(--line);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(11, 61, 46, 0.12);
+            flex-shrink: 0;
+        }
+
+        .brand-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 28%;
+            transform: scale(1.42);
+            display: block;
+        }
+
+        .brand-text strong {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 19px;
+            color: var(--deep);
+            display: block;
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+
+        .brand-text small {
+            color: var(--muted);
+            font-size: 9px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            display: block;
+            white-space: nowrap;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        /* 3-Mood Theme Toggle Button */
+        .theme-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-full);
+            padding: 7px 12px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink);
+            transition: var(--transition);
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .theme-toggle-btn:hover {
+            background: var(--mint);
+            border-color: var(--leaf);
+        }
+
+        .google-translate-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--mint);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-full);
+            padding: 7px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--forest);
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .google-translate-btn:hover {
+            background: #d8ece0;
+            border-color: var(--leaf);
+        }
+
+        .back-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--forest);
+            padding: 7px 14px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--line);
+            background: var(--paper);
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .back-home-link:hover {
+            background: var(--mint);
+            border-color: var(--leaf);
+        }
+
+        /* ================= 3. DESKTOP MAIN LAYOUT ================= */
+        .reading-shell {
+            padding: 40px 0 80px;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 40px;
+            align-items: start;
+            width: 100%;
+        }
+
+        /* Sidebar Archive (Desktop) */
+        .sidebar-archive {
+            position: sticky;
+            top: 96px;
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 24px 20px;
+            box-shadow: var(--shadow);
+            max-height: calc(100vh - 120px);
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .sidebar-title {
+            font-size: 11px;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--muted);
+        }
+
+        .sidebar-count-badge {
+            font-size: 11px;
+            font-weight: 800;
+            background: var(--mint);
+            color: var(--forest);
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+        }
+
+        .archive-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+            padding-right: 4px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .archive-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .archive-list::-webkit-scrollbar-thumb {
+            background: var(--line);
+            border-radius: 4px;
+        }
+
+        .archive-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid transparent;
+            background: var(--cream);
+            text-align: left;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--ink);
+            flex-shrink: 0;
+            width: 100%;
+        }
+
+        .archive-item:hover {
+            background: var(--mint);
+            border-color: var(--line);
+        }
+
+        .archive-item.active {
+            background: var(--forest);
+            color: #ffffff;
+            border-color: var(--deep);
+            box-shadow: 0 4px 14px rgba(11, 61, 46, 0.2);
+        }
+
+        .archive-item.active .archive-item-sub {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .archive-item-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .archive-item-text {
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .archive-item-text strong {
+            display: block;
+            font-size: 14.5px;
+            font-weight: 700;
+            line-height: 1.25;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .archive-item-sub {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
+            display: block;
+        }
+
+        /* Reading Canvas */
+        .reading-canvas {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 55px 65px;
+            box-shadow: var(--shadow);
+            min-height: 600px;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .article-header {
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 24px;
+            margin-bottom: 30px;
+        }
+
+        .article-meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .article-meta span.bullet {
+            color: var(--gold);
+        }
+
+        /* Reader Mode Font Scaler Toolbar */
+        .reader-tools {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--cream);
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--line);
+            user-select: none;
+        }
+
+        .reader-tools-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-right: 4px;
+        }
+
+        .font-tool-btn {
+            font-weight: 800;
+            font-size: 13px;
+            color: var(--forest);
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: var(--paper);
+            border: 1px solid var(--line);
+            transition: var(--transition);
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .font-tool-btn:hover {
+            background: var(--mint);
+            border-color: var(--leaf);
+        }
+
+        .font-tool-btn:active {
+            transform: scale(0.95);
+        }
+
+        .article-title {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(30px, 4vw, 44px);
+            line-height: 1.2;
+            color: var(--deep);
+        }
+
+        /* In-Page Audio Player Bar */
+        .audio-player-bar {
+            margin-top: 22px;
+            padding: 12px 20px;
+            background: var(--mint);
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .audio-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .audio-icon-pulse {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--forest);
+            color: #ffffff;
+            display: grid;
+            place-items: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .audio-icon-pulse.playing {
+            animation: pulseAnim 1.8s infinite ease-in-out;
+        }
+
+        @keyframes pulseAnim {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 10px rgba(29, 107, 79, 0.4);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .audio-info span {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--forest);
+        }
+
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .audio-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border-radius: var(--radius-full);
+            font-size: 13px;
+            font-weight: 700;
+            background: var(--paper);
+            border: 1px solid var(--line);
+            color: var(--forest);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .audio-btn:hover {
+            background: var(--forest);
+            color: #ffffff;
+            border-color: var(--forest);
+        }
+
+        /* Floating Sticky Audio Bar */
+        .sticky-audio-bar {
+            position: fixed;
+            bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 999;
+            background: rgba(11, 61, 46, 0.96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #ffffff;
+            padding: 10px 22px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sticky-audio-bar.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .sticky-audio-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #eaf5ee;
+            white-space: nowrap;
+        }
+
+        .sticky-btn {
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 800;
+            background: #ffffff;
+            color: var(--forest);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sticky-btn:hover {
+            background: var(--mint);
+        }
+
+        .article-body {
+            color: var(--ink);
+            font-size: 18.5px;
+            line-height: 1.88;
+            max-width: 680px;
+            transition: font-size 0.15s ease;
+        }
+
+        .article-body p {
+            margin-bottom: 24px;
+            font-size: inherit;
+            line-height: inherit;
+        }
+
+        .article-body p:first-of-type::first-letter {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 52px;
+            float: left;
+            line-height: 0.8;
+            padding-right: 12px;
+            padding-top: 4px;
+            color: var(--forest);
+            font-weight: 700;
+        }
+
+        .article-nav {
+            margin-top: 50px;
+            padding-top: 24px;
+            border-top: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-art-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--line);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--forest);
+            background: var(--cream);
+            transition: var(--transition);
+        }
+
+        .nav-art-btn:hover {
+            background: var(--mint);
+            border-color: var(--leaf);
+        }
+
+        .nav-art-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            border-color: var(--line);
+            background: #fbfbfb;
+        }
+
+        /* ================= 4. FLOATING QUOTE SELECTION TOOLTIP ================= */
+        #quoteShareTooltip {
+            position: absolute;
+            display: none;
+            z-index: 1000;
+            background: var(--deep);
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: var(--radius-full);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--gold);
+            font-size: 13px;
+            font-weight: 700;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: transform 0.15s ease, opacity 0.15s ease;
+            white-space: nowrap;
+        }
+
+        #quoteShareTooltip:hover {
+            transform: scale(1.05);
+            background: var(--forest);
+        }
+
+        /* ================= 5. 4-FORMAT QUOTE CARD MODAL ================= */
+        #quoteCardModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: rgba(3, 27, 20, 0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            place-items: center;
+            padding: 20px;
+        }
+
+        #quoteCardModal.open {
+            display: grid !important;
+        }
+
+        .quote-modal-card {
+            background: #ffffff;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 480px;
+            padding: 24px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+            border: 1.5px solid var(--line);
+            text-align: center;
+            position: relative;
+            animation: modalFadeIn 0.2s ease-out;
+        }
+
+        .quote-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--muted);
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .quote-modal-title {
+            font-size: 18px;
+            color: var(--forest);
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .quote-modal-sub {
+            font-size: 12.5px;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        .card-preview-wrap {
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto 18px;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--line);
+            aspect-ratio: 1 / 1;
+            background: #062b21;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #quoteCanvasPreview {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+        }
+
+        .format-selector-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .format-pill {
+            padding: 8px 4px;
+            border-radius: 10px;
+            border: 1.5px solid var(--line);
+            background: var(--cream);
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--ink);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .format-pill:hover {
+            border-color: var(--leaf);
+        }
+
+        .format-pill.active {
+            border-color: var(--forest);
+            background: var(--mint);
+            color: var(--forest);
+            box-shadow: 0 2px 8px rgba(11, 61, 46, 0.15);
+        }
+
+        .format-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .download-card-btn {
+            background: var(--forest);
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: var(--radius-full);
+            font-weight: 800;
+            font-size: 14.5px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(11, 61, 46, 0.22);
+            cursor: pointer;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .download-card-btn:hover {
+            background: var(--deep);
+            transform: translateY(-2px);
+        }
+
+        /* ================= 6. MINDFUL UNPLUG TOAST ================= */
+        #unplugToast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            max-width: 360px;
+            background: var(--forest);
+            color: #ffffff;
+            padding: 18px 20px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gold);
+            z-index: 9999;
+            transform: translateY(140px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #unplugToast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        #unplugToast h4 {
+            font-size: 14px;
+            color: var(--gold);
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        #unplugToast p {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #eaf5ee;
+        }
+
+        #unplugClose {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            color: #a4ceb5;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Hidden Master Canvas for High-Res Output (1080x1080) */
+        #quoteCardCanvas {
+            display: none;
+        }
+
+        /* Modal Fade Animation */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Modal Styling */
+        #indian_lang_modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: rgba(3, 27, 20, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            place-items: center;
+            padding: 20px;
+        }
+
+        #indian_lang_modal.open {
+            display: grid !important;
+        }
+
+        .lang-modal-card {
+            background: #ffffff;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 380px;
+            padding: 22px 18px;
+            border: 1.5px solid var(--line);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .lang-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 10px;
+        }
+
+        .lang-modal-header h3 {
+            font-size: 16px;
+            color: var(--forest);
+            font-weight: 800;
+        }
+
+        .lang-modal-close {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--muted);
+            cursor: pointer;
+        }
+
+        .lang-list-container {
+            max-height: 300px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .lang-btn-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: var(--cream);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .lang-btn-item:hover {
+            background: var(--mint);
+            border-color: var(--leaf);
+            color: var(--forest);
+        }
+
+        .footer {
+            background: #031c15;
+            color: #b7cebe;
+            padding: 40px 0 24px;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* ================= DEDICATED WINDOW / DESKTOP (min-width: 961px) ================= */
+        @media screen and (min-width: 961px) {
+            .container {
+                width: min(1220px, 100% - 64px) !important;
+            }
+
+            .article-body {
+                font-size: 19.5px;
+                line-height: 1.92 !important;
+                max-width: 760px !important;
+            }
+
+            .article-title {
+                font-size: 44px !important;
+            }
+
+            .sidebar-archive {
+                padding: 28px 24px !important;
+            }
+        }
+
+        /* =========================================================================
+           4. DEDICATED ANDROID & MOBILE ENGINE (@media max-width: 768px) - 100% PRESERVED
+           ========================================================================= */
+        @media screen and (max-width: 768px) {
+
+            .container {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding-left: 14px !important;
+                padding-right: 14px !important;
+            }
+
+            .nav {
+                height: 60px !important;
+                gap: 8px !important;
+            }
+
+            .brand-logo-wrap {
+                width: 36px !important;
+                height: 36px !important;
+                border-radius: 10px !important;
+            }
+
+            .brand-text strong {
+                font-size: 16px !important;
+            }
+
+            .brand-text small {
+                display: none !important;
+            }
+
+            .nav-actions {
+                gap: 6px !important;
+            }
+
+            .theme-toggle-btn {
+                padding: 6px 10px !important;
+                font-size: 12px !important;
+                border-radius: 20px !important;
+            }
+
+            .theme-toggle-btn span:last-child {
+                display: none !important;
+            }
+
+            .google-translate-btn {
+                padding: 6px 10px !important;
+                font-size: 12px !important;
+                border-radius: 20px !important;
+            }
+
+            .back-home-link {
+                padding: 6px 10px !important;
+                font-size: 12px !important;
+                border-radius: 20px !important;
+            }
+
+            .reading-shell {
+                display: flex !important;
+                flex-direction: column !important;
+                padding: 12px 0 50px !important;
+                gap: 16px !important;
+                width: 100% !important;
+            }
+
+            .sidebar-archive {
+                position: relative !important;
+                top: 0 !important;
+                max-height: none !important;
+                border-radius: 16px !important;
+                padding: 12px 14px !important;
+                box-shadow: 0 4px 16px rgba(11, 61, 46, 0.05) !important;
+                width: 100% !important;
+                background: var(--paper) !important;
+                border: 1px solid var(--line) !important;
+            }
+
+            .sidebar-header {
+                margin-bottom: 8px !important;
+                padding-bottom: 4px !important;
+                border-bottom: 1px solid var(--line) !important;
+            }
+
+            .sidebar-title {
+                font-size: 10px !important;
+                letter-spacing: 1.2px !important;
+            }
+
+            .archive-list {
+                display: flex !important;
+                flex-direction: row !important;
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
+                white-space: nowrap !important;
+                gap: 8px !important;
+                padding-bottom: 4px !important;
+                -webkit-overflow-scrolling: touch !important;
+                scroll-snap-type: x mandatory !important;
+                scrollbar-width: none !important;
+            }
+
+            .archive-list::-webkit-scrollbar {
+                display: none !important;
+            }
+
+            .archive-item {
+                flex: 0 0 auto !important;
+                width: auto !important;
+                padding: 8px 14px !important;
+                border-radius: 50px !important;
+                gap: 6px !important;
+                scroll-snap-align: center !important;
+                min-height: 40px !important;
+                background: var(--cream) !important;
+            }
+
+            .archive-item.active {
+                background: var(--forest) !important;
+                color: #ffffff !important;
+                border-color: var(--forest) !important;
+            }
+
+            .archive-item-text strong {
+                font-size: 13px !important;
+                max-width: 160px !important;
+            }
+
+            .archive-item-sub {
+                display: none !important;
+            }
+
+            .reading-canvas {
+                padding: 24px 16px !important;
+                border-radius: 16px !important;
+                min-height: auto !important;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+            }
+
+            .article-header {
+                padding-bottom: 16px !important;
+                margin-bottom: 20px !important;
+            }
+
+            .article-meta-row {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px !important;
+            }
+
+            .article-meta {
+                font-size: 11px !important;
+                gap: 6px !important;
+            }
+
+            .reader-tools {
+                align-self: flex-start !important;
+            }
+
+            .article-title {
+                font-size: 26px !important;
+                line-height: 1.25 !important;
+            }
+
+            .audio-player-bar {
+                margin-top: 16px !important;
+                padding: 12px 14px !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 12px !important;
+            }
+
+            .audio-controls {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 8px !important;
+                width: 100% !important;
+            }
+
+            .audio-btn {
+                width: 100% !important;
+                justify-content: center !important;
+                min-height: 44px !important;
+                font-size: 13px !important;
+                padding: 8px !important;
+            }
+
+            .article-body {
+                font-size: 17px;
+                line-height: 1.82 !important;
+            }
+
+            .article-body p {
+                margin-bottom: 20px !important;
+            }
+
+            .article-body p:first-of-type::first-letter {
+                font-size: 44px !important;
+                padding-right: 8px !important;
+                padding-top: 2px !important;
+            }
+
+            .article-nav {
+                margin-top: 36px !important;
+                padding-top: 20px !important;
+                flex-direction: column !important;
+                gap: 10px !important;
+            }
+
+            .nav-art-btn {
+                width: 100% !important;
+                justify-content: center !important;
+                min-height: 46px !important;
+                font-size: 14px !important;
+            }
+
+            .sticky-audio-bar {
+                width: calc(100% - 24px) !important;
+                max-width: 380px !important;
+                padding: 8px 14px !important;
+                justify-content: space-between !important;
+                bottom: 16px !important;
+            }
+
+            .sticky-audio-info {
+                font-size: 12px !important;
+            }
+
+            .sticky-btn {
+                min-height: 38px !important;
+                padding: 6px 12px !important;
+            }
+
+            #unplugToast {
+                left: 14px !important;
+                right: 14px !important;
+                bottom: 16px !important;
+                max-width: 100% !important;
+            }
+
+            .footer-inner {
+                flex-direction: column !important;
+                gap: 12px !important;
+                text-align: center !important;
+            }
+        }
+
+        /* Small Android Screen (360px width phones) */
+        @media screen and (max-width: 380px) {
+            .brand-text strong {
+                font-size: 15px !important;
+            }
+
+            .google-translate-btn span:last-child {
+                display: none !important;
+            }
+
+            .article-title {
+                font-size: 23px !important;
+            }
+
+            .archive-item-text strong {
+                max-width: 130px !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top Reading Scroll Progress Bar -->
+    <div id="readingProgressBar"></div>
+
+    <!-- Floating Highlight Tooltip for Quotes -->
+    <div id="quoteShareTooltip">
+        <span>✨</span> <span>Share Quote ✦</span>
+    </div>
+
+    <!-- 4-Format Quote Card Preview & Selector Modal -->
+    <div id="quoteCardModal">
+        <div class="quote-modal-card notranslate" translate="no">
+            <span class="quote-modal-close" id="closeQuoteModal">✕</span>
+            <h3 class="quote-modal-title">Quote Card Format</h3>
+            <p class="quote-modal-sub">Choose a mood for your square snapshot</p>
+
+            <div class="card-preview-wrap">
+                <canvas id="quoteCanvasPreview"></canvas>
+            </div>
+
+            <div class="format-selector-row">
+                <button class="format-pill active" data-format="forest">
+                    <span class="format-dot" style="background: #0b3d2e;"></span>
+                    <span>Forest</span>
+                </button>
+                <button class="format-pill" data-format="cream">
+                    <span class="format-dot" style="background: #f7f5ed;"></span>
+                    <span>Paper</span>
+                </button>
+                <button class="format-pill" data-format="sepia">
+                    <span class="format-dot" style="background: #4a331c;"></span>
+                    <span>Sepia</span>
+                </button>
+                <button class="format-pill" data-format="midnight">
+                    <span class="format-dot" style="background: #04120e;"></span>
+                    <span>Midnight</span>
+                </button>
+            </div>
+
+            <button class="download-card-btn" id="confirmDownloadCardBtn" type="button">
+                <span>📸 Download Card (1080x1080)</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Master Hidden Canvas for Final High-Res Export -->
+    <canvas id="quoteCardCanvas" width="1080" height="1080"></canvas>
+
+    <!-- Mindful Unplug Toast -->
+    <div id="unplugToast">
+        <span id="unplugClose">✕</span>
+        <h4>MINDFUL PAUSE</h4>
+        <p>You’ve been reflecting here for a while. Consider resting your eyes and taking a deep breath of the real air.
+        </p>
+    </div>
+
+    <!-- Language Selection Modal -->
+    <div id="indian_lang_modal">
+        <div class="lang-modal-card notranslate" translate="no">
+            <div class="lang-modal-header">
+                <h3>Select Language</h3>
+                <span class="lang-modal-close" id="closeLangModal">✕</span>
+            </div>
+            <div class="lang-list-container">
+                <button class="lang-btn-item" data-lang="en"><span>English</span> <small>English</small></button>
+                <button class="lang-btn-item" data-lang="hi"><span>हिंदी</span> <small>Hindi</small></button>
+                <button class="lang-btn-item" data-lang="mr"><span>मराठी</span> <small>Marathi</small></button>
+                <button class="lang-btn-item" data-lang="gu"><span>ગુજરાતી</span> <small>Gujarati</small></button>
+                <button class="lang-btn-item" data-lang="bn"><span>বাংলা</span> <small>Bengali</small></button>
+                <button class="lang-btn-item" data-lang="ta"><span>தமிழ்</span> <small>Tamil</small></button>
+                <button class="lang-btn-item" data-lang="te"><span>తెలుగు</span> <small>Telugu</small></button>
+                <button class="lang-btn-item" data-lang="kn"><span>ಕನ್ನಡ</span> <small>Kannada</small></button>
+                <button class="lang-btn-item" data-lang="ml"><span>മലയാളം</span> <small>Malayalam</small></button>
+                <button class="lang-btn-item" data-lang="pa"><span>ਪੰਜਾਬੀ</span> <small>Punjabi</small></button>
+                <button class="lang-btn-item" data-lang="or"><span>ଓଡ଼ିଆ</span> <small>Odia</small></button>
+                <button class="lang-btn-item" data-lang="as"><span>Assamese</span> <small>Assamese</small></button>
+                <button class="lang-btn-item" data-lang="ur"><span>اردو</span> <small>Urdu</small></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="hidden_google_engine" style="display:none;">
+        <div id="google_translate_element"></div>
+    </div>
+
+    <!-- Site Header -->
+    <header class="site-header">
+        <nav class="nav container">
+            <a class="brand" href="index.html">
+                <div class="brand-logo-wrap notranslate" translate="no">
+                    <img src="logo.jpeg" alt="Lost Leaf Emblem" class="brand-logo-img" />
+                </div>
+                <div class="brand-text">
+                    <strong class="notranslate" translate="no">Lost Leaf</strong>
+                    <small class="notranslate" translate="no">The Inner Lens</small>
+                </div>
+            </a>
+
+            <div class="nav-actions">
+                <!-- 3-Mood Theme Switcher -->
+                <button class="theme-toggle-btn notranslate" id="themeToggleBtn" type="button"
+                    title="Switch Theme Mood">
+                    <span id="themeIcon">🌿</span>
+                    <span id="themeLabel">Cream</span>
+                </button>
+
+                <button class="google-translate-btn notranslate" id="googleTranslateBtn" type="button" translate="no">
+                    <span>🌐</span> <span>Translate</span>
+                </button>
+                <a href="index.html" class="back-home-link">
+                    <span>←</span> <span>Home</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Reading Layout -->
+    <main class="container reading-shell">
+        <!-- Archive Collection -->
+        <aside class="sidebar-archive">
+            <div class="sidebar-header">
+                <p class="sidebar-title">ESSAYS ARCHIVE</p>
+                <span class="sidebar-count-badge" id="archiveCountBadge">0</span>
+            </div>
+            <div class="archive-list" id="archiveList"></div>
+        </aside>
+
+        <!-- Reader Canvas -->
+        <article class="reading-canvas">
+            <header class="article-header">
+                <div class="article-meta-row">
+                    <div class="article-meta">
+                        <span id="articleTag">CONTEMPLATION</span>
+                        <span class="bullet">•</span>
+                        <span id="readTime">3 MIN READ</span>
+                    </div>
+
+                    <!-- Reader Mode Tools: Clean Font Scaler -->
+                    <div class="reader-tools notranslate" translate="no">
+                        <span class="reader-tools-label">Text:</span>
+                        <button class="font-tool-btn" id="decreaseFontBtn" type="button"
+                            title="Make font smaller">A−</button>
+                        <button class="font-tool-btn" id="resetFontBtn" type="button"
+                            title="Default font size">A</button>
+                        <button class="font-tool-btn" id="increaseFontBtn" type="button"
+                            title="Make font larger">A+</button>
+                    </div>
+                </div>
+
+                <h1 class="article-title" id="articleTitle"></h1>
+
+                <!-- In-Page Audio Player Bar -->
+                <div class="audio-player-bar notranslate" id="topAudioBar" translate="no">
+                    <div class="audio-info">
+                        <div class="audio-icon-pulse" id="audioIcon">🎧</div>
+                        <span id="audioStatusText">Listen to this reflection</span>
+                    </div>
+
+                    <div class="audio-controls">
+                        <button class="audio-btn" id="playAudioBtn" type="button">▶ Play</button>
+                        <button class="audio-btn" id="pauseAudioBtn" type="button" style="display: none;">⏸
+                            Pause</button>
+                        <button class="audio-btn" id="stopAudioBtn" type="button" style="display: none;">⏹ Stop</button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="article-body" id="articleBody"></div>
+
+            <footer class="article-nav">
+                <button class="nav-art-btn" id="nextArticleBtn">Next Reflection →</button>
+                <button class="nav-art-btn" id="prevArticleBtn">← Previous Reflection</button>
+            </footer>
+        </article>
+    </main>
+
+    <!-- Sticky Bottom Audio Controller -->
+    <aside class="sticky-audio-bar notranslate" id="stickyAudioBar" translate="no" aria-label="Audio Controls">
+        <div class="sticky-audio-info">
+            <span>🎧</span>
+            <span id="stickyStatusText">Listening...</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <button class="sticky-btn" id="stickyPlayBtn" type="button">▶</button>
+            <button class="sticky-btn" id="stickyPauseBtn" type="button" style="display: none;">⏸</button>
+            <button class="sticky-btn" id="stickyStopBtn" type="button">⏹</button>
+        </div>
+    </aside>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <p>© <span id="year"></span> Lost Leaf. Written for quiet reflection.</p>
+            <a href="index.html#test" style="color: #ffffff; font-size: 13px; font-weight: 700;">Back to Reflection Test
+                →</a>
+        </div>
+    </footer>
+
+    <!-- Google Translate Official Loader -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,mr,gu,bn,ta,te,kn,ml,pa,or,as,ur',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- SHARED ARTICLES FILE -->
+    <script src="articles.js"></script>
+
+    <script>
+        let keys = [];
+
+        function getParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function getCurrentLanguage() {
+            const cookies = document.cookie.split(";");
+            for (let c of cookies) {
+                c = c.trim();
+                if (c.startsWith("googtrans=")) {
+                    const parts = c.split("/");
+                    return parts[parts.length - 1] || "en";
+                }
+            }
+            return "en";
+        }
+
+        function renderArchiveList(activeKey) {
+            const listContainer = document.getElementById("archiveList");
+            if (typeof essayArchive === "undefined") return;
+
+            keys = Object.keys(essayArchive);
+            document.getElementById("archiveCountBadge").textContent = `${keys.length} Notes`;
+
+            listContainer.innerHTML = keys.map(k => {
+                const item = essayArchive[k];
+                const isActive = (k === activeKey);
+                return `
+          <button class="archive-item ${isActive ? 'active' : ''}" id="archiveItem_${k}" onclick="loadArticle('${k}', true)">
+            <span class="archive-item-icon">${item.icon}</span>
+            <div class="archive-item-text">
+              <strong>${item.title}</strong>
+              <span class="archive-item-sub">${item.tag || 'Contemplation'}</span>
+            </div>
+          </button>
+        `;
+            }).join("");
+
+            setTimeout(() => {
+                const activeBtn = document.getElementById(`archiveItem_${activeKey}`);
+                if (activeBtn && window.innerWidth <= 768) {
+                    activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }
+            }, 100);
+        }
+
+        function loadArticle(key, updateUrl = false) {
+            stopAudio();
+
+            if (typeof essayArchive === "undefined") return;
+            keys = Object.keys(essayArchive);
+
+            const article = essayArchive[key] || essayArchive[keys[0]];
+            const currentKey = article.id;
+            const currentLang = getCurrentLanguage();
+
+            if (updateUrl && currentLang !== "en") {
+                window.location.href = `${window.location.pathname}?article=${currentKey}`;
+                return;
+            }
+
+            document.getElementById("articleTitle").textContent = article.title;
+            document.getElementById("articleTag").textContent = (article.tag || "CONTEMPLATION").toUpperCase();
+            document.getElementById("readTime").textContent = article.readTime || "3 MIN READ";
+            document.getElementById("articleBody").innerHTML = article.paragraphs.map(p => `<p>${p}</p>`).join("");
+            document.title = `${article.title} — Lost Leaf`;
+
+            renderArchiveList(currentKey);
+            applyCurrentFontSize();
+
+            const idx = keys.indexOf(currentKey);
+            const prevBtn = document.getElementById("prevArticleBtn");
+            const nextBtn = document.getElementById("nextArticleBtn");
+
+            prevBtn.disabled = (idx === 0);
+            nextBtn.disabled = (idx === keys.length - 1);
+
+            prevBtn.onclick = () => { if (idx > 0) loadArticle(keys[idx - 1], true); };
+            nextBtn.onclick = () => { if (idx < keys.length - 1) loadArticle(keys[idx + 1], true); };
+
+            if (updateUrl) {
+                const newUrl = `${window.location.pathname}?article=${currentKey}`;
+                window.history.pushState({ article: currentKey }, "", newUrl);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            checkLanguageSupportForAudio();
+            updateScrollProgress();
+        }
+
+        /* ================= CONTINUOUS AUDIO ENGINE ================= */
+        let currentUtterance = null;
+        let isSpeaking = false;
+        let isPaused = false;
+        let keepAliveTimer = null;
+        let availableVoices = [];
+
+        const playBtn = document.getElementById("playAudioBtn");
+        const pauseBtn = document.getElementById("pauseAudioBtn");
+        const stopBtn = document.getElementById("stopAudioBtn");
+        const statusText = document.getElementById("audioStatusText");
+        const audioIcon = document.getElementById("audioIcon");
+        const topAudioBar = document.getElementById("topAudioBar");
+
+        const stickyBar = document.getElementById("stickyAudioBar");
+        const stickyPlay = document.getElementById("stickyPlayBtn");
+        const stickyPause = document.getElementById("stickyPauseBtn");
+        const stickyStop = document.getElementById("stickyStopBtn");
+        const stickyStatus = document.getElementById("stickyStatusText");
+
+        function loadVoices() {
+            if ('speechSynthesis' in window) {
+                availableVoices = window.speechSynthesis.getVoices();
+            }
+        }
+
+        if ('speechSynthesis' in window) {
+            loadVoices();
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        function checkLanguageSupportForAudio() {
+            const lang = getCurrentLanguage();
+            const isSupported = (lang === "en" || lang === "hi");
+
+            if (isSupported) {
+                topAudioBar.style.display = "flex";
+            } else {
+                stopAudio();
+                topAudioBar.style.display = "none";
+                stickyBar.classList.remove("visible");
+            }
+        }
+
+        function getQualityVoice(langCode) {
+            if (!availableVoices || availableVoices.length === 0) loadVoices();
+
+            if (langCode === "hi") {
+                return availableVoices.find(v => v.lang && v.lang.toLowerCase().includes("hi")) || null;
+            } else {
+                const englishVoices = availableVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith("en"));
+                const priority = ["natural", "google", "samantha", "aria", "en-us"];
+                for (let kw of priority) {
+                    const found = englishVoices.find(v => v.name.toLowerCase().includes(kw));
+                    if (found) return found;
+                }
+                return englishVoices[0] || null;
+            }
+        }
+
+        function startKeepAlive() {
+            clearInterval(keepAliveTimer);
+            keepAliveTimer = setInterval(() => {
+                if (window.speechSynthesis && isSpeaking && !isPaused) {
+                    window.speechSynthesis.pause();
+                    window.speechSynthesis.resume();
+                }
+            }, 10000);
+        }
+
+        function stopKeepAlive() {
+            clearInterval(keepAliveTimer);
+        }
+
+        function playAudio() {
+            const lang = getCurrentLanguage();
+            if (lang !== "en" && lang !== "hi") return;
+
+            if (!('speechSynthesis' in window)) {
+                alert("Text-to-speech is not supported on this browser.");
+                return;
+            }
+
+            if (isPaused) {
+                window.speechSynthesis.resume();
+                isPaused = false;
+                isSpeaking = true;
+                startKeepAlive();
+                updateAudioUI("playing");
+                return;
+            }
+
+            window.speechSynthesis.cancel();
+            stopKeepAlive();
+
+            const title = document.getElementById("articleTitle").innerText.trim();
+            const bodyParas = Array.from(document.querySelectorAll("#articleBody p"))
+                .map(p => p.innerText.trim())
+                .join(" ");
+
+            const completeText = `${title}. ${bodyParas}`;
+
+            currentUtterance = new SpeechSynthesisUtterance(completeText);
+            currentUtterance.rate = (lang === "hi") ? 0.90 : 0.96;
+            currentUtterance.pitch = 1.0;
+            currentUtterance.lang = (lang === "hi") ? "hi-IN" : "en-US";
+
+            const voice = getQualityVoice(lang);
+            if (voice) currentUtterance.voice = voice;
+
+            currentUtterance.onstart = () => {
+                isSpeaking = true;
+                isPaused = false;
+                startKeepAlive();
+                updateAudioUI("playing");
+            };
+
+            currentUtterance.onend = () => stopAudio();
+            currentUtterance.onerror = () => stopAudio();
+
+            window.speechSynthesis.speak(currentUtterance);
+        }
+
+        function pauseAudio() {
+            if (window.speechSynthesis && isSpeaking && !isPaused) {
+                window.speechSynthesis.pause();
+                isPaused = true;
+                isSpeaking = false;
+                stopKeepAlive();
+                updateAudioUI("paused");
+            }
+        }
+
+        function stopAudio() {
+            stopKeepAlive();
+            if (window.speechSynthesis) window.speechSynthesis.cancel();
+            isSpeaking = false;
+            isPaused = false;
+            currentUtterance = null;
+            updateAudioUI("stopped");
+        }
+
+        function updateAudioUI(state) {
+            const lang = getCurrentLanguage();
+            if (lang !== "en" && lang !== "hi") {
+                topAudioBar.style.display = "none";
+                stickyBar.classList.remove("visible");
+                return;
+            }
+
+            if (state === "playing") {
+                statusText.textContent = (lang === "hi") ? "चिंतन सुना जा रहा है..." : "Listening to reflection...";
+                stickyStatus.textContent = (lang === "hi") ? "सुना जा रहा है..." : "Playing...";
+                audioIcon.classList.add("playing");
+
+                playBtn.style.display = "none";
+                pauseBtn.style.display = "inline-flex";
+                stopBtn.style.display = "inline-flex";
+
+                stickyPlay.style.display = "none";
+                stickyPause.style.display = "inline-flex";
+                checkStickyScroll();
+            } else if (state === "paused") {
+                statusText.textContent = (lang === "hi") ? "चिंतन रुका हुआ है" : "Reflection paused";
+                stickyStatus.textContent = (lang === "hi") ? "रुका हुआ है" : "Paused";
+                audioIcon.classList.remove("playing");
+
+                playBtn.style.display = "inline-flex";
+                playBtn.textContent = (lang === "hi") ? "▶ जारी रखें" : "▶ Resume";
+                pauseBtn.style.display = "none";
+                stopBtn.style.display = "inline-flex";
+
+                stickyPlay.style.display = "inline-flex";
+                stickyPause.style.display = "none";
+                checkStickyScroll();
+            } else {
+                statusText.textContent = (lang === "hi") ? "यह चिंतन सुनें" : "Listen to this reflection";
+                audioIcon.classList.remove("playing");
+
+                playBtn.style.display = "inline-flex";
+                playBtn.textContent = (lang === "hi") ? "▶ सुनें" : "▶ Play";
+                pauseBtn.style.display = "none";
+                stopBtn.style.display = "none";
+
+                stickyBar.classList.remove("visible");
+            }
+        }
+
+        function checkStickyScroll() {
+            const lang = getCurrentLanguage();
+            if (lang !== "en" && lang !== "hi") {
+                stickyBar.classList.remove("visible");
+                return;
+            }
+
+            if (!isSpeaking && !isPaused) {
+                stickyBar.classList.remove("visible");
+                return;
+            }
+            const rect = topAudioBar.getBoundingClientRect();
+            if (rect.bottom < 40) {
+                stickyBar.classList.add("visible");
+            } else {
+                stickyBar.classList.remove("visible");
+            }
+        }
+
+        /* ================= 4. WORKING FONT SIZE SCALER ENGINE ================= */
+        const defaultFontSizePx = 19;
+        let currentFontSizePx = parseInt(localStorage.getItem("lostleaf_font_size")) || defaultFontSizePx;
+
+        function applyCurrentFontSize() {
+            const bodyEl = document.getElementById("articleBody");
+            if (!bodyEl) return;
+
+            bodyEl.style.fontSize = `${currentFontSizePx}px`;
+
+            const paras = bodyEl.querySelectorAll("p");
+            paras.forEach(p => {
+                p.style.fontSize = `${currentFontSizePx}px`;
+                p.style.lineHeight = (currentFontSizePx > 22) ? "1.9" : "1.85";
+            });
+
+            localStorage.setItem("lostleaf_font_size", currentFontSizePx);
+        }
+
+        function changeFontSize(delta) {
+            if (delta === 0) {
+                currentFontSizePx = defaultFontSizePx;
+            } else {
+                currentFontSizePx = Math.min(Math.max(currentFontSizePx + delta, 15), 28);
+            }
+            applyCurrentFontSize();
+        }
+
+        /* ================= 5. 3-MOOD THEME CONTROLLER ================= */
+        const THEMES = ["cream", "sepia", "midnight"];
+        const THEME_LABELS = { cream: "Cream", sepia: "Sepia", midnight: "Midnight" };
+        const THEME_ICONS = { cream: "🌿", sepia: "📜", midnight: "🌙" };
+
+        function applyTheme(themeName) {
+            document.documentElement.setAttribute("data-theme", themeName);
+            localStorage.setItem("lostleaf_theme", themeName);
+
+            const iconEl = document.getElementById("themeIcon");
+            const labelEl = document.getElementById("themeLabel");
+            if (iconEl) iconEl.textContent = THEME_ICONS[themeName] || "🌿";
+            if (labelEl) labelEl.textContent = THEME_LABELS[themeName] || "Cream";
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute("data-theme") || "cream";
+            const nextIdx = (THEMES.indexOf(current) + 1) % THEMES.length;
+            applyTheme(THEMES[nextIdx]);
+        }
+
+        /* ================= 6. 4-FORMAT QUOTE CARD ENGINE ================= */
+        let selectedQuoteText = "";
+        let activeCardFormat = "forest"; // forest, cream, sepia, midnight
+
+        const CARD_STYLES = {
+            forest: {
+                bgGrad: ["#062b21", "#0b3d2e"],
+                border: "rgba(215, 181, 109, 0.45)",
+                brandTag: "#d7b56d",
+                watermark: "rgba(215, 181, 109, 0.08)",
+                quoteSym: "#d7b56d",
+                text: "#f5fdf7",
+                subText: "#a7cfb7",
+                footerTag: "#d7b56d"
+            },
+            cream: {
+                bgGrad: ["#faf7ee", "#efe9d8"],
+                border: "rgba(11, 61, 46, 0.25)",
+                brandTag: "#1d6b4f",
+                watermark: "rgba(11, 61, 46, 0.05)",
+                quoteSym: "#1d6b4f",
+                text: "#173229",
+                subText: "#5e736a",
+                footerTag: "#1d6b4f"
+            },
+            sepia: {
+                bgGrad: ["#291c10", "#45301d"],
+                border: "rgba(215, 181, 109, 0.35)",
+                brandTag: "#d7b56d",
+                watermark: "rgba(215, 181, 109, 0.06)",
+                quoteSym: "#d7b56d",
+                text: "#f9ede2",
+                subText: "#c4a88b",
+                footerTag: "#d7b56d"
+            },
+            midnight: {
+                bgGrad: ["#020b08", "#071c14"],
+                border: "rgba(82, 201, 147, 0.3)",
+                brandTag: "#52c993",
+                watermark: "rgba(82, 201, 147, 0.05)",
+                quoteSym: "#52c993",
+                text: "#e3f0e8",
+                subText: "#7aa894",
+                footerTag: "#52c993"
+            }
+        };
+
+        function initQuoteShareTooltip() {
+            const tooltip = document.getElementById("quoteShareTooltip");
+            const modal = document.getElementById("quoteCardModal");
+            const closeBtn = document.getElementById("closeQuoteModal");
+            const articleBody = document.getElementById("articleBody");
+            const dlBtn = document.getElementById("confirmDownloadCardBtn");
+
+            const handleSelection = () => {
+                const selection = window.getSelection();
+                const text = selection.toString().trim();
+
+                if (text.length > 12 && articleBody.contains(selection.anchorNode)) {
+                    selectedQuoteText = text;
+                    const range = selection.getRangeAt(0);
+                    const rect = range.getBoundingClientRect();
+
+                    tooltip.style.top = `${rect.top + window.scrollY - 46}px`;
+                    tooltip.style.left = `${rect.left + window.scrollX + (rect.width / 2) - 65}px`;
+                    tooltip.style.display = "flex";
+                } else {
+                    tooltip.style.display = "none";
+                }
+            };
+
+            document.addEventListener("mouseup", handleSelection);
+            document.addEventListener("touchend", handleSelection);
+
+            tooltip.onclick = () => {
+                tooltip.style.display = "none";
+                window.getSelection().removeAllRanges();
+                modal.classList.add("open");
+                drawCardToCanvas("quoteCanvasPreview", 400, activeCardFormat);
+            };
+
+            const closeModal = () => modal.classList.remove("open");
+            closeBtn.onclick = closeModal;
+            modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+            });
+
+            // Format Selection Pills
+            document.querySelectorAll(".format-pill").forEach(pill => {
+                pill.onclick = () => {
+                    document.querySelectorAll(".format-pill").forEach(p => p.classList.remove("active"));
+                    pill.classList.add("active");
+                    activeCardFormat = pill.dataset.format || "forest";
+                    drawCardToCanvas("quoteCanvasPreview", 400, activeCardFormat);
+                };
+            });
+
+            // Download Trigger
+            dlBtn.onclick = () => {
+                drawCardToCanvas("quoteCardCanvas", 1080, activeCardFormat);
+                const masterCanvas = document.getElementById("quoteCardCanvas");
+                const link = document.createElement("a");
+                link.download = `LostLeaf_${activeCardFormat}_Quote.png`;
+                link.href = masterCanvas.toDataURL("image/png");
+                link.click();
+            };
+        }
+
+        function drawCardToCanvas(canvasId, size, formatKey) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext("2d");
+
+            canvas.width = size;
+            canvas.height = size;
+
+            const scale = size / 1080;
+            const theme = CARD_STYLES[formatKey] || CARD_STYLES.forest;
+
+            // Background Gradient
+            const bg = ctx.createLinearGradient(0, 0, size, size);
+            bg.addColorStop(0, theme.bgGrad[0]);
+            bg.addColorStop(1, theme.bgGrad[1]);
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, size, size);
+
+            // Outer & Inner Borders
+            ctx.strokeStyle = theme.border;
+            ctx.lineWidth = 4 * scale;
+            ctx.strokeRect(50 * scale, 50 * scale, 980 * scale, 980 * scale);
+
+            // Watermark Logo
+            ctx.font = `${90 * scale}px Georgia, serif`;
+            ctx.fillStyle = theme.watermark;
+            ctx.textAlign = "center";
+            ctx.fillText("❧", 540 * scale, 230 * scale);
+
+            // Top Brand Tag
+            ctx.font = `700 ${24 * scale}px 'DM Sans', sans-serif`;
+            ctx.fillStyle = theme.brandTag;
+            ctx.letterSpacing = `${6 * scale}px`;
+            ctx.fillText("L O S T   L E A F", 540 * scale, 170 * scale);
+
+            // Quotation Mark
+            ctx.font = `${130 * scale}px 'Playfair Display', Georgia, serif`;
+            ctx.fillStyle = theme.quoteSym;
+            ctx.fillText("“", 540 * scale, 370 * scale);
+
+            // Quote Body Text Wrapping
+            ctx.font = `italic 400 ${36 * scale}px 'Playfair Display', Georgia, serif`;
+            ctx.fillStyle = theme.text;
+            ctx.textAlign = "center";
+            wrapTextCenter(ctx, selectedQuoteText, 540 * scale, 450 * scale, 840 * scale, 56 * scale);
+
+            // Footer Source
+            const articleTitle = document.getElementById("articleTitle").innerText || "Reflection";
+            ctx.font = `600 ${21 * scale}px 'DM Sans', sans-serif`;
+            ctx.fillStyle = theme.subText;
+            ctx.fillText(`— from "${articleTitle}"`, 540 * scale, 880 * scale);
+
+            ctx.font = `700 ${16 * scale}px 'DM Sans', sans-serif`;
+            ctx.fillStyle = theme.footerTag;
+            ctx.letterSpacing = `${3 * scale}px`;
+            ctx.fillText("LOSTLEAF.SPACE", 540 * scale, 940 * scale);
+        }
+
+        function wrapTextCenter(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(" ");
+            let line = "";
+            for (let n = 0; n < words.length; n++) {
+                const testLine = line + words[n] + " ";
+                const metrics = ctx.measureText(testLine);
+                if (metrics.width > maxWidth && n > 0) {
+                    ctx.fillText(line, x, y);
+                    line = words[n] + " ";
+                    y += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line, x, y);
+        }
+
+        /* ================= 7. MINDFUL UNPLUG TIMER (10 MINUTES) ================= */
+        function initUnplugReminder() {
+            const toast = document.getElementById("unplugToast");
+            const closeBtn = document.getElementById("unplugClose");
+
+            if (!toast) return;
+
+            setTimeout(() => {
+                toast.classList.add("show");
+            }, 600000);
+
+            if (closeBtn) {
+                closeBtn.onclick = () => toast.classList.remove("show");
+            }
+        }
+
+        /* ================= 8. READING PROGRESS BAR ================= */
+        function updateScrollProgress() {
+            const doc = document.documentElement;
+            const scrollTop = doc.scrollTop || document.body.scrollTop;
+            const scrollHeight = doc.scrollHeight - doc.clientHeight;
+            const percent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+            const bar = document.getElementById("readingProgressBar");
+            if (bar) bar.style.width = `${percent}%`;
+        }
+
+        window.addEventListener("scroll", () => {
+            checkStickyScroll();
+            updateScrollProgress();
+        }, { passive: true });
+
+        playBtn.onclick = playAudio;
+        pauseBtn.onclick = pauseAudio;
+        stopBtn.onclick = stopAudio;
+
+        stickyPlay.onclick = playAudio;
+        stickyPause.onclick = pauseAudio;
+        stickyStop.onclick = stopAudio;
+
+        /* ================= TWO-WAY TRANSLATION ENGINE ================= */
+        const langModal = document.getElementById("indian_lang_modal");
+
+        function clearAllGoogleTranslateCookies() {
+            const hostname = window.location.hostname;
+            const domainParts = hostname.split('.');
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + hostname + ";";
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=." + hostname + ";";
+            if (domainParts.length > 2) {
+                const parentDomain = domainParts.slice(-2).join('.');
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=." + parentDomain + ";";
+            }
+        }
+
+        function setLanguage(langCode) {
+            stopAudio();
+            langModal.classList.remove("open");
+            if (langCode === "en") {
+                const selectElem = document.querySelector("#google_translate_element select.goog-te-combo");
+                if (selectElem) {
+                    selectElem.value = "";
+                    selectElem.dispatchEvent(new Event("change"));
+                }
+                clearAllGoogleTranslateCookies();
+                window.location.reload();
+                return;
+            }
+            clearAllGoogleTranslateCookies();
+            document.cookie = `googtrans=/en/${langCode}; path=/;`;
+            document.cookie = `googtrans=/en/${langCode}; path=/; domain=${window.location.hostname};`;
+            const selectElem = document.querySelector("#google_translate_element select.goog-te-combo");
+            if (selectElem) {
+                selectElem.value = langCode;
+                selectElem.dispatchEvent(new Event("change"));
+            }
+            window.location.reload();
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const savedTheme = localStorage.getItem("lostleaf_theme") || "cream";
+            applyTheme(savedTheme);
+
+            const initialArticle = getParam("article") || "person";
+            loadArticle(initialArticle, false);
+            checkLanguageSupportForAudio();
+
+            // Font scaler bindings
+            document.getElementById("decreaseFontBtn").onclick = () => changeFontSize(-2);
+            document.getElementById("resetFontBtn").onclick = () => changeFontSize(0);
+            document.getElementById("increaseFontBtn").onclick = () => changeFontSize(2);
+
+            // Theme toggle button
+            document.getElementById("themeToggleBtn").onclick = toggleTheme;
+
+            // Quote Selection & 4-Format Modal
+            initQuoteShareTooltip();
+            initUnplugReminder();
+
+            document.getElementById("googleTranslateBtn").onclick = () => langModal.classList.add("open");
+            document.getElementById("closeLangModal").onclick = () => langModal.classList.remove("open");
+            langModal.onclick = (e) => { if (e.target === langModal) langModal.classList.remove("open"); };
+
+            document.querySelectorAll(".lang-btn-item").forEach(itemBtn => {
+                itemBtn.onclick = () => setLanguage(itemBtn.dataset.lang);
+            });
+
+            document.getElementById("year").textContent = new Date().getFullYear();
+        });
+
+        window.onpopstate = (e) => {
+            const art = (e.state && e.state.article) ? e.state.article : (getParam("article") || "person");
+            loadArticle(art, false);
+        };
+    </script>
+</body>
+
+</html>

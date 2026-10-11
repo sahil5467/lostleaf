@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b3d2e" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="description"
+        content="The Inner Diary — Lost Leaf. A private, client-side reflection journal for unfiltered thoughts." />
+    <title>The Inner Diary — Lost Leaf</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Playfair+Display:ital,wght@0,500..800;1,500..700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ================= 1. RESET & THEME TOKENS ================= */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --forest: #0b3d2e;
+            --deep: #062b21;
+            --green: #1d6b4f;
+            --leaf: #3e8b64;
+            --mint: #eaf5ee;
+            --cream: #f7f5ed;
+            --paper: #ffffff;
+            --gold: #d7b56d;
+            --ink: #173229;
+            --muted: #5e736a;
+            --line: #d8e5dc;
+            --shadow: 0 16px 40px rgba(11, 61, 46, 0.08);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --radius-full: 999px;
+            --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-theme="sepia"] {
+            --forest: #3c2a1a;
+            --deep: #291c10;
+            --green: #6d4c2e;
+            --leaf: #8a6440;
+            --mint: #eadecb;
+            --cream: #f4ecd8;
+            --paper: #fbf6ec;
+            --gold: #b38b45;
+            --ink: #2b1f13;
+            --muted: #75634e;
+            --line: #ded3bd;
+            --shadow: 0 16px 40px rgba(44, 31, 19, 0.08);
+        }
+
+        [data-theme="midnight"] {
+            --forest: #2f7a5b;
+            --deep: #e8f5ef;
+            --green: #499e79;
+            --leaf: #65af87;
+            --mint: #0f3327;
+            --cream: #051a14;
+            --paper: #0a261e;
+            --gold: #dfc282;
+            --ink: #e3f0e8;
+            --muted: #94b5a8;
+            --line: #164034;
+            --shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--ink);
+            background-color: var(--cream);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            top: 0px !important;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Google Translate Banner Suppression */
+        .goog-te-banner-frame.skiptranslate,
+        .goog-te-banner-frame,
+        #goog-gt-tt,
+        .goog-te-balloon-frame {
+            display: none !important;
+            visibility: hidden !important;
+        }
+
+        body>.skiptranslate {
+            display: none !important;
+        }
+
+        body {
+            top: 0px !important;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            width: min(980px, 100% - 36px);
+            margin: 0 auto;
+        }
+
+        /* ================= 2. SITE HEADER ================= */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 120;
+            background: var(--cream);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--line);
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav {
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .brand-logo-wrap {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #eae5d8;
+            border: 1px solid var(--line);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(11, 61, 46, 0.12);
+            flex-shrink: 0;
+        }
+
+        .brand-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 28%;
+            transform: scale(1.42);
+            display: block;
+        }
+
+        .brand-text strong {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 19px;
+            color: var(--deep);
+            display: block;
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+
+        .brand-text small {
+            color: var(--muted);
+            font-size: 9px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            display: block;
+            white-space: nowrap;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-full);
+            padding: 7px 12px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .theme-toggle-btn:hover {
+            background: var(--mint);
+            border-color: var(--leaf);
+        }
+
+        .google-translate-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--mint);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-full);
+            padding: 7px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--forest);
+            transition: var(--transition);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .google-translate-btn:hover {
+            background: #d8ece0;
+            border-color: var(--leaf);
+        }
+
+        .nav-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--forest);
+            padding: 7px 14px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--line);
+            background: var(--paper);
+            transition: var(--transition);
+        }
+
+        .nav-link-btn:hover {
+            background: var(--mint);
+            border-color: var(--leaf);
+        }
+
+        /* ================= INDIAN LANGUAGES POPUP MODAL ================= */
+        #indian_lang_modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: rgba(3, 27, 20, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            place-items: center;
+            padding: 20px;
+        }
+
+        #indian_lang_modal.open {
+            display: grid !important;
+        }
+
+        .lang-modal-card {
+            background: #ffffff;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 380px;
+            padding: 22px 18px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            border: 1.5px solid var(--line);
+            animation: modalFadeIn 0.2s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .lang-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 10px;
+        }
+
+        .lang-modal-header h3 {
+            font-size: 16px;
+            color: var(--forest);
+            font-weight: 800;
+        }
+
+        .lang-modal-close {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--muted);
+            cursor: pointer;
+            line-height: 1;
+            padding: 0 4px;
+        }
+
+        .lang-list-container {
+            max-height: 300px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .lang-btn-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: var(--cream);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--ink);
+            text-align: left;
+            transition: var(--transition);
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .lang-btn-item:hover {
+            background: var(--mint);
+            border-color: var(--leaf);
+            color: var(--forest);
+        }
+
+        .lang-btn-item small {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        #hidden_google_engine {
+            display: none !important;
+            visibility: hidden !important;
+        }
+
+        /* ================= 3. JOURNAL WORKSPACE ================= */
+        .journal-shell {
+            padding: 40px 0 80px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+        }
+
+        .journal-card {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 40px 45px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .journal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 18px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .journal-meta h1 {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(26px, 3.5vw, 36px);
+            color: var(--deep);
+            line-height: 1.2;
+        }
+
+        .journal-date-tag {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .storage-backup-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-storage {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: var(--radius-full);
+            font-size: 12.5px;
+            font-weight: 700;
+            background: var(--cream);
+            border: 1px solid var(--line);
+            color: var(--forest);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .btn-storage:hover {
+            background: var(--mint);
+            border-color: var(--leaf);
+        }
+
+        /* Inspiration Prompt Box */
+        .inspiration-box {
+            background: var(--mint);
+            border: 1.5px dashed var(--leaf);
+            border-radius: var(--radius-sm);
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .inspiration-content {
+            flex: 1;
+        }
+
+        .inspiration-tag-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .inspiration-tag {
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--forest);
+        }
+
+        .online-indicator {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .inspiration-text {
+            font-family: "Playfair Display", Georgia, serif;
+            font-style: italic;
+            font-size: 18.5px;
+            color: var(--deep);
+            line-height: 1.45;
+            min-height: 52px;
+            display: flex;
+            align-items: center;
+        }
+
+        .insp-cycle-btn {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--forest);
+            white-space: nowrap;
+            cursor: pointer;
+            background: var(--paper);
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--line);
+            transition: var(--transition);
+        }
+
+        .insp-cycle-btn:hover {
+            background: var(--forest);
+            color: #ffffff;
+        }
+
+        /* Writing Area */
+        .journal-textarea {
+            width: 100%;
+            min-height: 240px;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 18px 20px;
+            outline: none;
+            background: var(--cream);
+            color: var(--ink);
+            font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+            resize: vertical;
+            transition: border-color 0.2s ease;
+        }
+
+        .journal-textarea:focus {
+            border-color: var(--leaf);
+            background: var(--paper);
+        }
+
+        .journal-textarea::placeholder {
+            color: var(--muted);
+            opacity: 0.65;
+            font-style: italic;
+        }
+
+        .journal-actions-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .word-counter {
+            font-size: 13px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .action-btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-save-entry {
+            background: var(--forest);
+            color: #ffffff;
+            padding: 11px 24px;
+            border-radius: var(--radius-full);
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-save-entry:hover {
+            background: var(--deep);
+            transform: translateY(-1px);
+        }
+
+        .btn-clear-entry {
+            background: transparent;
+            color: var(--muted);
+            padding: 11px 18px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid var(--line);
+            transition: var(--transition);
+        }
+
+        .btn-clear-entry:hover {
+            background: #fdf2f2;
+            color: #c93b3b;
+            border-color: #f0c0c0;
+        }
+
+        /* ================= 4. ENTRIES HISTORY SECTION ================= */
+        .history-section {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4px;
+        }
+
+        .history-title {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 24px;
+            color: var(--deep);
+        }
+
+        .history-count {
+            font-size: 12px;
+            font-weight: 800;
+            background: var(--mint);
+            color: var(--forest);
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--line);
+        }
+
+        .entries-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .empty-state {
+            background: var(--paper);
+            border: 1px dashed var(--line);
+            border-radius: var(--radius);
+            padding: 45px 20px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .empty-state span {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+            color: var(--gold);
+        }
+
+        .entry-card {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 24px 28px;
+            box-shadow: 0 4px 16px rgba(11, 61, 46, 0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            position: relative;
+            animation: entryFadeIn 0.3s ease-out;
+        }
+
+        @keyframes entryFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .entry-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 10px;
+        }
+
+        .entry-date {
+            font-size: 11.5px;
+            font-weight: 800;
+            color: var(--gold);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .entry-top-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .entry-action-btn {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 5px 12px;
+            border-radius: var(--radius-full);
+            background: var(--cream);
+            border: 1px solid var(--line);
+        }
+
+        .entry-action-btn:hover {
+            color: var(--forest);
+            background: var(--mint);
+        }
+
+        .entry-delete-btn:hover {
+            color: #c93b3b;
+            background: #fdf2f2;
+            border-color: #f0c0c0;
+        }
+
+        .entry-prompt-quote {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 16.5px;
+            font-style: italic;
+            color: var(--forest);
+            background: var(--mint);
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 3px solid var(--gold);
+            line-height: 1.45;
+        }
+
+        .entry-body {
+            font-size: 17px;
+            line-height: 1.8;
+            color: var(--ink);
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* Inline Editor for Existing Notes */
+        .edit-box-textarea {
+            width: 100%;
+            min-height: 140px;
+            padding: 14px 16px;
+            border: 1.5px solid var(--leaf);
+            border-radius: 8px;
+            background: var(--cream);
+            color: var(--ink);
+            font-family: inherit;
+            font-size: 16.5px;
+            line-height: 1.75;
+            outline: none;
+        }
+
+        .edit-box-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .btn-edit-save {
+            background: var(--forest);
+            color: #ffffff;
+            padding: 7px 16px;
+            border-radius: var(--radius-full);
+            font-size: 12.5px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .btn-edit-cancel {
+            background: transparent;
+            color: var(--muted);
+            padding: 7px 14px;
+            border-radius: var(--radius-full);
+            font-size: 12.5px;
+            font-weight: 700;
+            border: 1px solid var(--line);
+            cursor: pointer;
+        }
+
+        .entry-footer-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            padding-top: 6px;
+        }
+
+        .entry-copy-btn {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--forest);
+            cursor: pointer;
+            padding: 5px 12px;
+            border-radius: var(--radius-full);
+            background: var(--cream);
+            border: 1px solid var(--line);
+            transition: var(--transition);
+        }
+
+        .entry-copy-btn:hover {
+            background: var(--mint);
+        }
+
+        #restoreFileInput {
+            display: none;
+        }
+
+        /* ================= 5. FOOTER ================= */
+        .footer {
+            background: #031c15;
+            color: #b7cebe;
+            padding: 36px 0 24px;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* ================= 6. ANDROID & MOBILE VIEW ENGINE ================= */
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 100% !important;
+                padding-left: 14px !important;
+                padding-right: 14px !important;
+            }
+
+            .nav {
+                height: 60px !important;
+                gap: 6px !important;
+            }
+
+            .brand-text strong {
+                font-size: 16px !important;
+            }
+
+            .brand-text small {
+                display: none !important;
+            }
+
+            .theme-toggle-btn span:last-child {
+                display: none !important;
+            }
+
+            .google-translate-btn span:last-child {
+                display: none !important;
+            }
+
+            .google-translate-btn {
+                padding: 6px 10px !important;
+                font-size: 12px !important;
+                border-radius: 20px !important;
+            }
+
+            .nav-link-btn {
+                padding: 6px 10px !important;
+                font-size: 12px !important;
+                border-radius: 20px !important;
+            }
+
+            .journal-shell {
+                padding: 16px 0 50px !important;
+                gap: 20px !important;
+            }
+
+            .journal-card {
+                padding: 20px 16px !important;
+                border-radius: 16px !important;
+            }
+
+            .journal-header {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px !important;
+            }
+
+            .storage-backup-group {
+                width: 100% !important;
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 6px !important;
+            }
+
+            .btn-storage {
+                width: 100% !important;
+                justify-content: center !important;
+                font-size: 11px !important;
+                padding: 8px 6px !important;
+            }
+
+            .inspiration-box {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 12px !important;
+                padding: 14px !important;
+            }
+
+            .inspiration-text {
+                font-size: 16px !important;
+                min-height: auto !important;
+            }
+
+            .insp-cycle-btn {
+                align-self: flex-start !important;
+            }
+
+            .journal-textarea {
+                font-size: 16px !important;
+                min-height: 180px !important;
+                padding: 14px !important;
+            }
+
+            .action-btn-group {
+                width: 100% !important;
+            }
+
+            .btn-save-entry {
+                flex: 1 !important;
+                justify-content: center !important;
+            }
+
+            .entry-card {
+                padding: 18px 14px !important;
+            }
+
+            .entry-prompt-quote {
+                font-size: 14.5px !important;
+            }
+
+            .entry-body {
+                font-size: 15.5px !important;
+            }
+
+            .footer-inner {
+                flex-direction: column !important;
+                gap: 10px !important;
+                text-align: center !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hidden File Input for Device Restore -->
+    <input type="file" id="restoreFileInput" accept=".json,application/json">
+
+    <!-- Indian Regional Languages Native Modal -->
+    <div id="indian_lang_modal">
+        <div class="lang-modal-card notranslate" translate="no">
+            <div class="lang-modal-header">
+                <h3>Select Language</h3>
+                <span class="lang-modal-close" id="closeLangModal">✕</span>
+            </div>
+            <div class="lang-list-container">
+                <button class="lang-btn-item" data-lang="en"><span>English</span> <small>English</small></button>
+                <button class="lang-btn-item" data-lang="hi"><span>हिंदी</span> <small>Hindi</small></button>
+                <button class="lang-btn-item" data-lang="mr"><span>मराठी</span> <small>Marathi</small></button>
+                <button class="lang-btn-item" data-lang="gu"><span>ગુજરાતી</span> <small>Gujarati</small></button>
+                <button class="lang-btn-item" data-lang="bn"><span>বাংলা</span> <small>Bengali</small></button>
+                <button class="lang-btn-item" data-lang="ta"><span>தமிழ்</span> <small>Tamil</small></button>
+                <button class="lang-btn-item" data-lang="te"><span>తెలుగు</span> <small>Telugu</small></button>
+                <button class="lang-btn-item" data-lang="kn"><span>ಕನ್ನಡ</span> <small>Kannada</small></button>
+                <button class="lang-btn-item" data-lang="ml"><span>മലയാളം</span> <small>Malayalam</small></button>
+                <button class="lang-btn-item" data-lang="pa"><span>ਪੰਜਾਬੀ</span> <small>Punjabi</small></button>
+                <button class="lang-btn-item" data-lang="or"><span>ଓଡ଼ିଆ</span> <small>Odia</small></button>
+                <button class="lang-btn-item" data-lang="as"><span>অসমীয়া</span> <small>Assamese</small></button>
+                <button class="lang-btn-item" data-lang="ur"><span>اردو</span> <small>Urdu</small></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="hidden_google_engine">
+        <div id="google_translate_element"></div>
+    </div>
+
+    <!-- Site Header -->
+    <header class="site-header">
+        <nav class="nav container">
+            <a class="brand" href="index.html">
+                <div class="brand-logo-wrap notranslate" translate="no">
+                    <img src="logo.jpeg" alt="Lost Leaf Emblem" class="brand-logo-img" />
+                </div>
+                <div class="brand-text">
+                    <strong class="notranslate" translate="no">Lost Leaf</strong>
+                    <small class="notranslate" translate="no">The Inner Lens</small>
+                </div>
+            </a>
+
+            <div class="nav-actions">
+                <button class="theme-toggle-btn notranslate" id="themeToggleBtn" type="button" title="Switch Theme">
+                    <span id="themeIcon">🌿</span>
+                    <span id="themeLabel">Cream</span>
+                </button>
+
+                <button class="google-translate-btn notranslate" id="googleTranslateBtn" type="button" translate="no">
+                    <span>🌐</span> <span>Translate</span>
+                </button>
+
+                <a href="reading.html" class="nav-link-btn">
+                    <span>📖</span> <span>Read</span>
+                </a>
+                <a href="index.html" class="nav-link-btn">
+                    <span>←</span> <span></span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Journal Workspace -->
+    <main class="container journal-shell">
+
+        <!-- Active Editor Card -->
+        <article class="journal-card">
+            <header class="journal-header">
+                <div class="journal-meta">
+                    <h1>The Inner Diary</h1>
+                    <span class="journal-date-tag" id="currentDateTag">UNFILTERED TRUTH</span>
+                </div>
+
+                <!-- Phone Device Backup & Restore Group -->
+                <div class="storage-backup-group notranslate" translate="no">
+                    <button class="btn-storage" id="backupToDeviceBtn" type="button"
+                        title="Download backup file to phone storage">
+                        <span>📦 Backup to Device</span>
+                    </button>
+                    <button class="btn-storage" id="restoreFromDeviceBtn" type="button"
+                        title="Load diary file from phone storage">
+                        <span>📂 Restore from Device</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Live Online Dynamic Inspiration Box -->
+            <div class="inspiration-box">
+                <div class="inspiration-content">
+                    <div class="inspiration-tag-row">
+                        <span class="inspiration-tag">TODAY'S INQUIRY</span>
+                        <span class="online-indicator" id="promptStatusIndicator">• Live Feed</span>
+                    </div>
+                    <p class="inspiration-text" id="inspText">"What emotion did you try to quickly hide from everyone
+                        today?"</p>
+                </div>
+                <button class="insp-cycle-btn notranslate" id="nextInspBtn" type="button" translate="no">↻ Next
+                    Question</button>
+            </div>
+
+            <!-- Writing Input -->
+            <textarea class="journal-textarea" id="journalPad"
+                placeholder="There is no judgment here. Answer the inquiry above or write whatever is happening inside you..."></textarea>
+
+            <!-- Actions & Word Count -->
+            <div class="journal-actions-row notranslate" translate="no">
+                <div class="word-counter">
+                    <span id="wordCount">0 words</span>
+                </div>
+
+                <div class="action-btn-group">
+                    <button class="btn-clear-entry" id="clearPadBtn" type="button">Clear</button>
+                    <button class="btn-save-entry" id="saveEntryBtn" type="button">
+                        <span>💾 Save Reflection</span>
+                    </button>
+                </div>
+            </div>
+        </article>
+
+        <!-- Past Reflections History -->
+        <section class="history-section">
+            <div class="history-header">
+                <h2 class="history-title">Past Reflections</h2>
+                <span class="history-count notranslate" id="entriesCountBadge" translate="no">0 Entries</span>
+            </div>
+
+            <div class="entries-container" id="entriesContainer"></div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <p>© <span id="year"></span> Lost Leaf. Written for quiet reflection.</p>
+            <a href="index.html#test" style="color: #ffffff; font-size: 13px; font-weight: 700;">Take Reflection Test
+                →</a>
+        </div>
+    </footer>
+
+    <!-- Google Translate Official Loader -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,mr,gu,bn,ta,te,kn,ml,pa,or,as,ur',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        /* ================= 1. THEME ENGINE ================= */
+        const THEMES = ["cream", "sepia", "midnight"];
+        const THEME_LABELS = { cream: "Cream", sepia: "Sepia", midnight: "Midnight" };
+        const THEME_ICONS = { cream: "🌿", sepia: "📜", midnight: "🌙" };
+
+        function applyTheme(themeName) {
+            document.documentElement.setAttribute("data-theme", themeName);
+            localStorage.setItem("lostleaf_theme", themeName);
+
+            const iconEl = document.getElementById("themeIcon");
+            const labelEl = document.getElementById("themeLabel");
+            if (iconEl) iconEl.textContent = THEME_ICONS[themeName] || "🌿";
+            if (labelEl) labelEl.textContent = THEME_LABELS[themeName] || "Cream";
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute("data-theme") || "cream";
+            const nextIdx = (THEMES.indexOf(current) + 1) % THEMES.length;
+            applyTheme(THEMES[nextIdx]);
+        }
+
+        /* ================= 2. LIVE ONLINE AUTHENTIC QUESTION ENGINE ================= */
+        // Natural, pure philosophical and mindfulness inquiries (No awkward suffixes)
+        const AUTHENTIC_INQUIRIES = [
+            "What emotion did you try to quickly hide from everyone today?",
+            "Where did your ego try to defend you when you were actually in the wrong?",
+            "If you completely stopped proving yourself to others, what would you choose to do differently?",
+            "What is something small that silently drained your peace today?",
+            "Who are you genuinely grateful for right now, but haven't told them yet?",
+            "What would your calmest, wisest self tell you about your current worry?",
+            "What personal boundary did you compromise today out of a fear of conflict?",
+            "What truth about yourself are you avoiding looking at directly?",
+            "Are you reacting to what actually happened, or to an assumption you made in your head?",
+            "Did you listen to anyone with complete presence today, or were you merely waiting for your turn to talk?",
+            "What expectation are you holding onto that is causing your own disappointment?",
+            "When nobody is looking at you, what thoughts naturally occupy your mind?",
+            "What would change in your life if you stopped waiting for someone else's approval?",
+            "What is one mistake you made recently that you still haven't forgiven yourself for?",
+            "If you could give your tired mind one permission right now, what would it be?"
+        ];
+
+        let querySeed = 0;
+
+        async function fetchRandomOnlineQuestion() {
+            const inspEl = document.getElementById("inspText");
+            const indicator = document.getElementById("promptStatusIndicator");
+            if (!inspEl) return;
+
+            inspEl.style.opacity = "0.35";
+            if (indicator) indicator.textContent = "• Fetching...";
+
+            try {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 2000);
+
+                // Fetch real-time philosophical advice cleanly
+                const res = await fetch("https://api.adviceslip.com/advice?t=" + Date.now(), {
+                    signal: controller.signal
+                });
+                clearTimeout(timeout);
+
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.slip && data.slip.advice) {
+                        // Clean direct statement
+                        inspEl.textContent = `"${data.slip.advice}"`;
+                        inspEl.style.opacity = "1";
+                        if (indicator) indicator.textContent = "• Live Online";
+                        return;
+                    }
+                }
+            } catch (e) {
+                // Fallback gracefully to authentic pool
+            }
+
+            querySeed = (querySeed + Math.floor(Math.random() * 3) + 1) % AUTHENTIC_INQUIRIES.length;
+            inspEl.textContent = `"${AUTHENTIC_INQUIRIES[querySeed]}"`;
+            inspEl.style.opacity = "1";
+            if (indicator) indicator.textContent = "• Mindful Pool";
+        }
+
+        /* ================= 3. MULTI-ENTRY STORAGE & INLINE EDIT ENGINE ================= */
+        const pad = document.getElementById("journalPad");
+        const wordCount = document.getElementById("wordCount");
+        const entriesContainer = document.getElementById("entriesContainer");
+        const countBadge = document.getElementById("entriesCountBadge");
+
+        function getSavedEntries() {
+            try {
+                return JSON.parse(localStorage.getItem("lostleaf_diary_entries")) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveEntriesToStorage(entries) {
+            localStorage.setItem("lostleaf_diary_entries", JSON.stringify(entries));
+            renderEntries();
+        }
+
+        function renderEntries() {
+            const entries = getSavedEntries();
+            countBadge.textContent = `${entries.length} ${entries.length === 1 ? 'Entry' : 'Entries'}`;
+
+            if (entries.length === 0) {
+                entriesContainer.innerHTML = `
+          <div class="empty-state">
+            <span>❧</span>
+            <p>No saved reflections yet. Answer the inquiry above and click <strong>"Save Reflection"</strong>.</p>
+          </div>
+        `;
+                return;
+            }
+
+            entriesContainer.innerHTML = entries.map((entry, idx) => `
+        <article class="entry-card" id="entryCard_${entry.id}">
+          <div class="entry-top">
+            <span class="entry-date">${entry.date}</span>
+            <div class="entry-top-actions notranslate" translate="no">
+              <button class="entry-action-btn" onclick="enableEditEntry(${entry.id})" title="Edit answer">✏️ Edit</button>
+              <button class="entry-action-btn entry-delete-btn" onclick="deleteEntry(${idx})" title="Delete entry">🗑</button>
+            </div>
+          </div>
+          <div class="entry-prompt-quote">
+            ${entry.prompt}
+          </div>
+          <div class="entry-body" id="entryBody_${entry.id}">${escapeHTML(entry.text)}</div>
+          <div class="entry-footer-actions notranslate" translate="no">
+            <button class="entry-copy-btn" onclick="copySingleEntry(${idx})">📋 Copy</button>
+            <button class="entry-copy-btn" onclick="downloadSingleEntry(${idx})">💾 Download .txt</button>
+          </div>
+        </article>
+      `).join("");
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g,
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+
+        // Save Active Entry
+        document.getElementById("saveEntryBtn").onclick = () => {
+            const text = pad.value.trim();
+            if (!text) {
+                alert("Please write something before saving.");
+                pad.focus();
+                return;
+            }
+
+            const activePrompt = document.getElementById("inspText").textContent;
+            const now = new Date();
+            const dateStr = now.toLocaleDateString(undefined, {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            }) + " • " + now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+
+            const newEntry = {
+                id: Date.now(),
+                date: dateStr,
+                prompt: activePrompt,
+                text: text
+            };
+
+            const entries = getSavedEntries();
+            entries.unshift(newEntry);
+            saveEntriesToStorage(entries);
+
+            pad.value = "";
+            updateStats("");
+            fetchRandomOnlineQuestion();
+        };
+
+        // Inline Edit Mechanism
+        window.enableEditEntry = (id) => {
+            const entries = getSavedEntries();
+            const entry = entries.find(e => e.id === id);
+            if (!entry) return;
+
+            const bodyEl = document.getElementById(`entryBody_${id}`);
+            bodyEl.innerHTML = `
+        <textarea class="edit-box-textarea" id="editInput_${id}">${escapeHTML(entry.text)}</textarea>
+        <div class="edit-box-actions notranslate" translate="no">
+          <button class="btn-edit-save" onclick="saveEditedEntry(${id})">✓ Update Note</button>
+          <button class="btn-edit-cancel" onclick="renderEntries()">Cancel</button>
+        </div>
+      `;
+        };
+
+        window.saveEditedEntry = (id) => {
+            const input = document.getElementById(`editInput_${id}`);
+            if (!input) return;
+
+            const updatedText = input.value.trim();
+            if (!updatedText) {
+                alert("Note cannot be empty.");
+                return;
+            }
+
+            const entries = getSavedEntries();
+            const entry = entries.find(e => e.id === id);
+            if (entry) {
+                entry.text = updatedText;
+                if (!entry.date.includes("(Edited)")) entry.date += " (Edited)";
+                saveEntriesToStorage(entries);
+            }
+        };
+
+        // Delete Single Entry
+        window.deleteEntry = (idx) => {
+            if (confirm("Are you sure you want to delete this reflection?")) {
+                const entries = getSavedEntries();
+                entries.splice(idx, 1);
+                saveEntriesToStorage(entries);
+            }
+        };
+
+        // Copy Single Entry
+        window.copySingleEntry = async (idx) => {
+            const entries = getSavedEntries();
+            const entry = entries[idx];
+            if (!entry) return;
+
+            const formatted = `Lost Leaf Reflection — ${entry.date}\nQuestion: ${entry.prompt}\n\nReflection:\n${entry.text}`;
+            try {
+                await navigator.clipboard.writeText(formatted);
+                alert("Reflection copied to clipboard ✓");
+            } catch (e) {
+                alert("Copy failed.");
+            }
+        };
+
+        // Download Single Entry
+        window.downloadSingleEntry = (idx) => {
+            const entries = getSavedEntries();
+            const entry = entries[idx];
+            if (!entry) return;
+
+            const formatted = `LOST LEAF — THE INNER DIARY\nDate: ${entry.date}\nInquiry: ${entry.prompt}\n\n${entry.text}\n`;
+            const blob = new Blob([formatted], { type: "text/plain;charset=utf-8" });
+            const link = document.createElement("a");
+            link.download = `LostLeaf_Entry_${entry.date.replace(/[^a-zA-Z0-9]/g, "_")}.txt`;
+            link.href = URL.createObjectURL(blob);
+            link.click();
+        };
+
+        /* ================= 4. DEVICE STORAGE BACKUP & RESTORE (.json) ================= */
+        document.getElementById("backupToDeviceBtn").onclick = () => {
+            const entries = getSavedEntries();
+            if (entries.length === 0) {
+                alert("There are no reflections to backup.");
+                return;
+            }
+
+            const backupData = JSON.stringify({
+                app: "Lost Leaf Inner Diary",
+                version: "1.0",
+                exportDate: new Date().toISOString(),
+                entries: entries
+            }, null, 2);
+
+            const blob = new Blob([backupData], { type: "application/json" });
+            const link = document.createElement("a");
+            const dateStr = new Date().toISOString().slice(0, 10);
+            link.download = `LostLeaf_Diary_Backup_${dateStr}.json`;
+            link.href = URL.createObjectURL(blob);
+            link.click();
+        };
+
+        document.getElementById("restoreFromDeviceBtn").onclick = () => {
+            document.getElementById("restoreFileInput").click();
+        };
+
+        document.getElementById("restoreFileInput").onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const json = JSON.parse(event.target.result);
+                    if (json && Array.isArray(json.entries)) {
+                        const currentEntries = getSavedEntries();
+                        const merged = [...json.entries, ...currentEntries.filter(c => !json.entries.some(j => j.id === c.id))];
+                        saveEntriesToStorage(merged);
+                        alert(`Successfully restored ${json.entries.length} reflections from your backup file ✓`);
+                    } else {
+                        alert("Invalid backup file format.");
+                    }
+                } catch (err) {
+                    alert("Error reading backup file.");
+                }
+            };
+            reader.readAsText(file);
+            e.target.value = "";
+        };
+
+        // Clear Textarea
+        document.getElementById("clearPadBtn").onclick = () => {
+            if (pad.value.trim() && confirm("Clear current unsaved text?")) {
+                pad.value = "";
+                updateStats("");
+            }
+        };
+
+        function updateStats(text) {
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            wordCount.textContent = `${words} ${words === 1 ? 'word' : 'words'}`;
+        }
+
+        pad.addEventListener("input", () => {
+            updateStats(pad.value);
+        });
+
+        /* ================= 5. TWO-WAY REGIONAL TRANSLATION ================= */
+        const langModal = document.getElementById("indian_lang_modal");
+
+        function clearAllGoogleTranslateCookies() {
+            const hostname = window.location.hostname;
+            const domainParts = hostname.split('.');
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + hostname + ";";
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=." + hostname + ";";
+            if (domainParts.length > 2) {
+                const parentDomain = domainParts.slice(-2).join('.');
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=." + parentDomain + ";";
+            }
+        }
+
+        function setLanguage(langCode) {
+            langModal.classList.remove("open");
+            if (langCode === "en") {
+                const selectElem = document.querySelector("#google_translate_element select.goog-te-combo");
+                if (selectElem) {
+                    selectElem.value = "";
+                    selectElem.dispatchEvent(new Event("change"));
+                }
+                clearAllGoogleTranslateCookies();
+                window.location.reload();
+                return;
+            }
+            clearAllGoogleTranslateCookies();
+            document.cookie = `googtrans=/en/${langCode}; path=/;`;
+            document.cookie = `googtrans=/en/${langCode}; path=/; domain=${window.location.hostname};`;
+            const selectElem = document.querySelector("#google_translate_element select.goog-te-combo");
+            if (selectElem) {
+                selectElem.value = langCode;
+                selectElem.dispatchEvent(new Event("change"));
+            }
+            window.location.reload();
+        }
+
+        /* ================= 6. INIT ================= */
+        window.addEventListener("DOMContentLoaded", () => {
+            const savedTheme = localStorage.getItem("lostleaf_theme") || "cream";
+            applyTheme(savedTheme);
+
+            document.getElementById("themeToggleBtn").onclick = toggleTheme;
+            document.getElementById("nextInspBtn").onclick = fetchRandomOnlineQuestion;
+
+            // Translation Modal Handlers
+            document.getElementById("googleTranslateBtn").onclick = () => langModal.classList.add("open");
+            document.getElementById("closeLangModal").onclick = () => langModal.classList.remove("open");
+            langModal.onclick = (e) => { if (e.target === langModal) langModal.classList.remove("open"); };
+
+            document.querySelectorAll(".lang-btn-item").forEach(itemBtn => {
+                itemBtn.onclick = () => setLanguage(itemBtn.dataset.lang);
+            });
+
+            fetchRandomOnlineQuestion();
+            renderEntries();
+
+            const options = { month: 'long', day: 'numeric', year: 'numeric' };
+            document.getElementById("currentDateTag").textContent = `${new Date().toLocaleDateString(undefined, options).toUpperCase()} • UNFILTERED TRUTH`;
+
+            document.getElementById("year").textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+
+</html>
